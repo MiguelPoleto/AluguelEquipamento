@@ -1,4 +1,4 @@
-package br.com.model.dao;
+package br.com.aluguelequipamento.model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

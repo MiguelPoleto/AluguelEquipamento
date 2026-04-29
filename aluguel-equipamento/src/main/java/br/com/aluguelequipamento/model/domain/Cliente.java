@@ -1,4 +1,4 @@
-package br.com.model.domain;
+package br.com.aluguelequipamento.model.domain;
 
 import java.time.LocalDate;
 

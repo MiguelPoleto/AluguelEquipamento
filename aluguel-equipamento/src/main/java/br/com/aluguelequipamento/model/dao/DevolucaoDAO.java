@@ -1,4 +1,4 @@
-package br.com.model.dao;
+package br.com.aluguelequipamento.model.dao;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,7 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.model.domain.Devolucao;
+import br.com.aluguelequipamento.model.domain.Devolucao;
+
 
 public class DevolucaoDAO {
     private static final String SQL_BASE =

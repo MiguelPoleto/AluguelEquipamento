@@ -1,4 +1,4 @@
-package br.com.model.dao;
+package br.com.aluguelequipamento.model.dao;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -9,7 +9,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.model.domain.Manutencao;
+import br.com.aluguelequipamento.model.domain.Manutencao;
+
 
 public class ManutencaoDAO {
     private static final String SQL_BASE =

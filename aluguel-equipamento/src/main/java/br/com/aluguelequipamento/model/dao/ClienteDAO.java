@@ -1,4 +1,4 @@
-package br.com.model.dao;
+package br.com.aluguelequipamento.model.dao;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.model.domain.Cliente;
+import br.com.aluguelequipamento.model.domain.Cliente;
+
 
 public class ClienteDAO {
 public List<Cliente> listar() throws SQLException {

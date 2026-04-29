@@ -1,4 +1,4 @@
-package br.com.model.dao;
+package br.com.aluguelequipamento.model.dao;
 
 import java.sql.Statement;
 import java.sql.Date;
@@ -7,7 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import br.com.model.domain.Equipamento;
+
+import br.com.aluguelequipamento.model.domain.Equipamento;
 
 public class EquipamentoDAO {
      public List<Equipamento> listar() throws SQLException {

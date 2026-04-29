@@ -1,26 +1,17 @@
-package br.com.model.domain;
+package br.com.aluguelequipamento.model.domain;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class Reserva {
-    private int id;
-    private int clienteId;
-    private String nomeCliente;
+public class Manutencao {
+     private int id;
     private int equipamentoId;
     private String nomeEquipamento;
+    private String descricao;
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private String status;
-    private String observacao;
-    private LocalDateTime dataCadastro;
 
-    public Reserva() {}
-
-    @Override
-    public String toString() {
-        return "Reserva #" + id + " - " + nomeCliente + " (" + dataInicio + " a " + dataFim + ")";
-    }
+    public Manutencao() {}
 
     public int getId() {
         return id;
@@ -28,22 +19,6 @@ public class Reserva {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
-    }
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
     }
 
     public int getEquipamentoId() {
@@ -60,6 +35,14 @@ public class Reserva {
 
     public void setNomeEquipamento(String nomeEquipamento) {
         this.nomeEquipamento = nomeEquipamento;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public LocalDate getDataInicio() {
@@ -85,24 +68,5 @@ public class Reserva {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    
     
 }
-
