@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.aluguelequipamento.controller.EquipamentoController"
+            prefWidth="920" prefHeight="620"
+            stylesheets="@css/equipamento.css">
+
+    <!-- TOPO -->
+    <top>
+        <VBox>
+            <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Label text="EQP" styleClass="card-tag"/>
+                <VBox>
+                    <Label text="Equipamentos" styleClass="header-title"/>
+                    <Label text="Cadastro e manutenção de equipamentos" styleClass="header-subtitle"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CENTRO -->
+    <center>
+        <HBox spacing="0">
+
+            <!-- TABELA -->
+            <VBox styleClass="table-container" prefWidth="520">
+                <padding>
+                    <Insets top="16" left="16" right="16" bottom="16"/>
+                </padding>
+
+                <!-- Busca -->
+                <HBox spacing="8" alignment="CENTER_LEFT" styleClass="search-bar">
+                    <TextField fx:id="txtBusca"
+                               promptText="Buscar equipamento..."
+                               prefWidth="300"
+                               styleClass="input"/>
+
+                    <Button text="Buscar"
+                            onAction="#buscar"
+                            styleClass="btn-primary"/>
+
+                    <Button text="Listar Todos"
+                            onAction="#listarTodos"
+                            styleClass="btn-secondary"/>
+                </HBox>
+
+                <TableView fx:id="tableEquipamentos"
+                           VBox.vgrow="ALWAYS"
+                           onMouseClicked="#selecionarEquipamento"
+                           styleClass="table">
+
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="45"/>
+                        <TableColumn fx:id="colNome" text="Nome" prefWidth="160"/>
+                        <TableColumn fx:id="colCategoria" text="Categoria" prefWidth="110"/>
+                        <TableColumn fx:id="colValor" text="R$/dia" prefWidth="80"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                    </columns>
+
+                    <placeholder>
+                        <Label text="Nenhum equipamento encontrado." styleClass="placeholder"/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+            <!-- FORMULÁRIO -->
+            <VBox prefWidth="400" spacing="12" styleClass="form-container">
+
+                <Label fx:id="lblTituloForm"
+                       text="Novo Equipamento"
+                       styleClass="form-title"/>
+
+                <Separator/>
+
+                <Label text="Nome *" styleClass="section-label"/>
+                <TextField fx:id="txtNome"
+                           promptText="Nome do equipamento"
+                           styleClass="input"/>
+
+                <Label text="Descrição" styleClass="section-label"/>
+                <TextArea fx:id="txtDescricao"
+                          promptText="Descrição do equipamento"
+                          prefRowCount="3"
+                          wrapText="true"
+                          styleClass="input"/>
+
+                <Label text="Categoria *" styleClass="section-label"/>
+                <ComboBox fx:id="cbCategoria"
+                          promptText="Selecione a categoria"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Valor da Diária (R$) *" styleClass="section-label"/>
+                <TextField fx:id="txtValorDiaria"
+                           promptText="0,00"
+                           styleClass="input"/>
+
+                <Label text="Status *" styleClass="section-label"/>
+                <ComboBox fx:id="cbStatus"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Data de Cadastro *" styleClass="section-label"/>
+                <DatePicker fx:id="dpDataCadastro"
+                            maxWidth="Infinity"
+                            styleClass="input"/>
+
+                <Separator/>
+
+                <Label fx:id="lblErro"
+                       text=""
+                       wrapText="true"
+                       styleClass="error-label"/>
+
+                <!-- Botões -->
+                <HBox spacing="8">
+                    <Button fx:id="btnSalvar"
+                            text="Salvar"
+                            onAction="#salvar"
+                            prefWidth="100"
+                            styleClass="btn-primary"/>
+
+                    <Button fx:id="btnExcluir"
+                            text="Excluir"
+                            onAction="#excluir"
+                            prefWidth="100"
+                            disable="true"
+                            styleClass="btn-danger"/>
+
+                    <Button text="Limpar"
+                            onAction="#limpar"
+                            prefWidth="100"
+                            styleClass="btn-secondary"/>
+                </HBox>
+
+                <!-- Voltar -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Button onAction="#voltarMenu" styleClass="btn-back">
+                        <graphic>
+                            <Label text="←"/>
+                        </graphic>
+                        <text> Voltar</text>
+                    </Button>
+                </HBox>
+
+            </VBox>
+        </HBox>
+    </center>
+
+    <!-- RODAPÉ -->
+    <bottom>
+        <HBox styleClass="footer" spacing="12" alignment="CENTER_LEFT">
+            <Label text="Sistema de Aluguel de Equipamentos v1.0" styleClass="footer-text"/>
+            <Label text="|" styleClass="footer-separator"/>
+            <Label text="Desenvolvido por: Alessandro Mion Batista  •  Miguel Santuchi Poleto"
+                   styleClass="footer-text"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

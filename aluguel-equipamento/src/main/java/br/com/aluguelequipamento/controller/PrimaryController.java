@@ -62,54 +62,42 @@ public class PrimaryController {
 
     // Navegação — cadastros
     @FXML private void abrirEquipamentos() throws IOException {
-        App.setRoot("view/equipamento");
-    }
-    @FXML private void abrirEquipamentos(MouseEvent e) throws IOException {
-        App.setRoot("view/equipamento");
+        App.setRoot("equipamento");
     }
 
     @FXML private void abrirClientes() throws IOException {
-        App.setRoot("view/cliente");
-    }
-    @FXML private void abrirClientes(MouseEvent e) throws IOException {
-        App.setRoot("view/cliente");
+        App.setRoot("cliente");
     }
 
     // Navegação — processos
     @FXML private void abrirReservas() throws IOException {
-        App.setRoot("view/reserva");
+        App.setRoot("reserva");
     }
     @FXML private void abrirReservas(MouseEvent e) throws IOException {
-        App.setRoot("view/reserva");
+        App.setRoot("reserva");
     }
 
     @FXML private void abrirRetiradas() throws IOException {
-        App.setRoot("view/retirada");
-    }
-    @FXML private void abrirRetiradas(MouseEvent e) throws IOException {
-        App.setRoot("view/retirada");
+        App.setRoot("retirada");
     }
 
     @FXML private void abrirDevolucoes() throws IOException {
-        App.setRoot("view/devolucao");
+        App.setRoot("devolucao");
     }
 
     @FXML private void abrirManutencoes() throws IOException {
-        App.setRoot("view/manutencao");
-    }
-    @FXML private void abrirManutencoes(MouseEvent e) throws IOException {
-        App.setRoot("view/manutencao");
+        App.setRoot("manutencao");
     }
 
     // Relatórios
     @FXML private void abrirRelatorioAluguel() throws IOException {
-        App.setRoot("view/relatorio-aluguel");
+        App.setRoot("relatorio-aluguel");
     }
     @FXML private void abrirRelatorioReservas() throws IOException {
-        App.setRoot("view/relatorio-reservas");
+        App.setRoot("relatorio-reservas");
     }
     @FXML private void abrirRelatorioManutencao() throws IOException {
-        App.setRoot("view/relatorio-manutencao");
+        App.setRoot("relatorio-manutencao");
     }
 
     @FXML private void sair() {
