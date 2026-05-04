@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS equipamento (
     descricao     VARCHAR(500),
     categoria     VARCHAR(50)   NOT NULL,
     valor_diaria  NUMERIC(10,2) NOT NULL,
-    status        VARCHAR(20)   NOT NULL DEFAULT \'disponivel\'
-                  CHECK (status IN (\'disponivel\',\'reservado\',\'alugado\',\'em_manutencao\')),
+    status        VARCHAR(20)   NOT NULL DEFAULT 'disponivel'
+                  CHECK (status IN ('disponivel','reservado','alugado','em_manutencao')),
     data_cadastro DATE          NOT NULL DEFAULT CURRENT_DATE
 );
 
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS reserva (
     equipamento_id INT          NOT NULL REFERENCES equipamento(id),
     data_inicio    DATE         NOT NULL,
     data_fim       DATE         NOT NULL,
-    status         VARCHAR(20)  NOT NULL DEFAULT \'ativa\'
-                   CHECK (status IN (\'ativa\',\'cancelada\',\'concluida\')),
+    status         VARCHAR(20)  NOT NULL DEFAULT 'ativa'
+                   CHECK (status IN ('ativa','cancelada','concluida')),
     observacao     VARCHAR(500),
     data_cadastro  TIMESTAMP    NOT NULL DEFAULT NOW(),
     CONSTRAINT chk_reserva_datas CHECK (data_fim >= data_inicio)
@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS retirada (
     data_retirada       DATE          NOT NULL DEFAULT CURRENT_DATE,
     data_prev_devolucao DATE          NOT NULL,
     valor_total         NUMERIC(10,2),
-    status              VARCHAR(20)   NOT NULL DEFAULT \'ativa\'
-                        CHECK (status IN (\'ativa\',\'concluida\')),
+    status              VARCHAR(20)   NOT NULL DEFAULT 'ativa'
+                        CHECK (status IN ('ativa','concluida')),
     observacao          VARCHAR(500),
     CONSTRAINT chk_retirada_datas CHECK (data_prev_devolucao >= data_retirada)
 );
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS devolucao (
     retirada_id    INT           NOT NULL REFERENCES retirada(id) UNIQUE,
     data_devolucao DATE          NOT NULL DEFAULT CURRENT_DATE,
     observacao     VARCHAR(500),
-    status         VARCHAR(20)   NOT NULL DEFAULT \'concluida\'
+    status         VARCHAR(20)   NOT NULL DEFAULT 'concluida'
 );
 
 -- ===========================
@@ -78,47 +78,46 @@ CREATE TABLE IF NOT EXISTS manutencao (
     descricao      VARCHAR(500)  NOT NULL,
     data_inicio    DATE          NOT NULL DEFAULT CURRENT_DATE,
     data_fim       DATE,
-    status         VARCHAR(20)   NOT NULL DEFAULT \'em_andamento\'
-                   CHECK (status IN (\'em_andamento\',\'concluida\')),
+    status         VARCHAR(20)   NOT NULL DEFAULT 'em_andamento'
+                   CHECK (status IN ('em_andamento','concluida'))
 );
 
 -- ===========================
 -- DADOS INICIAIS: cliente
 -- ===========================
 INSERT INTO cliente (nome, cpf, telefone, email, endereco) VALUES
-(\'João Silva\',      \'123.456.789-00\', \'(27) 99999-1001\', \'joao@email.com\',   \'Av. Central, 100 - Vitória/ES\'),
-(\'Maria Souza\',     \'987.654.321-00\', \'(27) 99999-1002\', \'maria@email.com\',  \'Rua das Flores, 200 - Cariacica/ES\'),
-(\'Pedro Oliveira\',  \'111.222.333-44\', \'(27) 99999-1003\', \'pedro@email.com\',  \'Rua Serra, 300 - Serra/ES\'),
-(\'Ana Costa\',       \'555.666.777-88\', \'(27) 99999-1004\', \'ana@email.com\',    \'Av. Praia, 400 - Vila Velha/ES\');
+('João Silva',      '123.456.789-00', '(27) 99999-1001', 'joao@email.com',   'Av. Central, 100 - Vitória/ES'),
+('Maria Souza',     '987.654.321-00', '(27) 99999-1002', 'maria@email.com',  'Rua das Flores, 200 - Cariacica/ES'),
+('Pedro Oliveira',  '111.222.333-44', '(27) 99999-1003', 'pedro@email.com',  'Rua Serra, 300 - Serra/ES'),
+('Ana Costa',       '555.666.777-88', '(27) 99999-1004', 'ana@email.com',    'Av. Praia, 400 - Vila Velha/ES');
 
 -- ===========================
 -- DADOS INICIAIS: equipamento
 -- ===========================
 INSERT INTO equipamento (nome, descricao, categoria, valor_diaria, status) VALUES
-(\'Betoneira 400L\',       \'Betoneira elétrica 400 litros - trifásica\',       \'Construção\',  150.00, \'disponivel\'),
-(\'Andaime Tubular 4m\',   \'Kit andaime metálico tubular com 4 metros\',        \'Construção\',   80.00, \'disponivel\'),
-(\'Compressor 100L\',      \'Compressor de ar 100L 2HP bivolt\',                 \'Ferramentas\', 120.00, \'disponivel\'),
-(\'Martelete SDS Plus\',   \'Martelete perfurador demolidor 800W com maleta\',   \'Ferramentas\',  60.00, \'disponivel\'),
-(\'Gerador 5kVA\',         \'Gerador a gasolina 5kVA monofásico\',               \'Energia\',     200.00, \'disponivel\'),
-(\'Esmerilhadeira 7"\',    \'Esmerilhadeira angular 7 polegadas 2200W\',         \'Ferramentas\',  45.00, \'disponivel\'),
-(\'Furadeira de Coluna\',  \'Furadeira de bancada 5/8" 350W\',                   \'Ferramentas\',  50.00, \'disponivel\'),
-(\'Vibrador de Concreto\', \'Vibrador de imersão para concreto 1.5HP\',          \'Construção\',   70.00, \'disponivel\');
+('Betoneira 400L',       'Betoneira elétrica 400 litros - trifásica',       'Construção',  150.00, 'disponivel'),
+('Andaime Tubular 4m',   'Kit andaime metálico tubular com 4 metros',        'Construção',   80.00, 'disponivel'),
+('Compressor 100L',      'Compressor de ar 100L 2HP bivolt',                 'Ferramentas', 120.00, 'disponivel'),
+('Martelete SDS Plus',   'Martelete perfurador demolidor 800W com maleta',   'Ferramentas',  60.00, 'disponivel'),
+('Gerador 5kVA',         'Gerador a gasolina 5kVA monofásico',               'Energia',     200.00, 'disponivel'),
+('Esmerilhadeira 7"',    'Esmerilhadeira angular 7 polegadas 2200W',         'Ferramentas',  45.00, 'disponivel'),
+('Furadeira de Coluna',  'Furadeira de bancada 5/8" 350W',                   'Ferramentas',  50.00, 'disponivel'),
+('Vibrador de Concreto', 'Vibrador de imersão para concreto 1.5HP',          'Construção',   70.00, 'disponivel');
 
 -- ===========================
 -- DADOS INICIAIS: reserva
 -- ===========================
 INSERT INTO reserva (cliente_id, equipamento_id, data_inicio, data_fim, status, observacao) VALUES
-(1, 1, CURRENT_DATE + 5,  CURRENT_DATE + 10, \'ativa\', \'Reserva para obra residencial - João\'),
-(2, 3, CURRENT_DATE + 2,  CURRENT_DATE + 7,  \'ativa\', \'Reserva para pintura predial - Maria\');
+(1, 1, CURRENT_DATE + 5,  CURRENT_DATE + 10, 'ativa', 'Reserva para obra residencial - João'),
+(2, 3, CURRENT_DATE + 2,  CURRENT_DATE + 7,  'ativa', 'Reserva para pintura predial - Maria');
 
-UPDATE equipamento SET status = \'reservado\' WHERE id IN (1, 3);
+UPDATE equipamento SET status = 'reservado' WHERE id IN (1, 3);
 
 -- ===========================
 -- DADOS INICIAIS: manutencao
 -- ===========================
 INSERT INTO manutencao (equipamento_id, descricao, data_inicio, status) VALUES
-(5, \'Revisão geral e troca de óleo\',    CURRENT_DATE - 3, \'em_andamento\'),
-(7, \'Substituição de rolamentos internos\', CURRENT_DATE - 1, \'em_andamento\');
+(5, 'Revisão geral e troca de óleo',    CURRENT_DATE - 3, 'em_andamento'),
+(7, 'Substituição de rolamentos internos', CURRENT_DATE - 1, 'em_andamento');
 
-UPDATE equipamento SET status = \'em_manutencao\' WHERE id IN (5, 7);
-'''
+UPDATE equipamento SET status = 'em_manutencao' WHERE id IN (5, 7);
