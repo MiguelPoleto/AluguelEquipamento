@@ -11,6 +11,7 @@ public class Manutencao {
     private String nomeEquipamento;
     private String descricao;
     private LocalDate dataInicio;
+    private LocalDate dataPrevisao;
     private LocalDate dataFim;
     private String status;
 
@@ -54,6 +55,14 @@ public class Manutencao {
 
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
+    }
+
+    public LocalDate getDataPrevisao() {
+        return dataPrevisao;
+    }
+
+    public void setDataPrevisao(LocalDate dataPrevisao) {
+        this.dataPrevisao = dataPrevisao;
     }
 
     public LocalDate getDataFim() {
