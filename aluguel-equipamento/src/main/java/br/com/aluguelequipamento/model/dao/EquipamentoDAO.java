@@ -10,6 +10,9 @@ import java.util.List;
 
 import br.com.aluguelequipamento.model.domain.Equipamento;
 
+/*
+    Miguel
+*/
 public class EquipamentoDAO {
      public List<Equipamento> listar() throws SQLException {
         List<Equipamento> lista = new ArrayList<>();

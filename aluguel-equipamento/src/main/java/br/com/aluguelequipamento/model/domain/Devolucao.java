@@ -3,6 +3,9 @@ package br.com.aluguelequipamento.model.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/*
+    Alessandro
+*/
 public class Devolucao {
     private int id;
     private int retiradaId;

@@ -12,6 +12,9 @@ import java.util.List;
 import br.com.aluguelequipamento.model.domain.Reserva;
 
 
+/*
+    Miguel
+*/
 public class ReservaDAO {
    private static final String SQL_BASE =
         "SELECT r.*, c.nome AS nome_cliente, e.nome AS nome_equipamento " +

@@ -11,6 +11,9 @@ import java.util.List;
 import br.com.aluguelequipamento.model.domain.Devolucao;
 
 
+/*
+    Alessandro
+*/
 public class DevolucaoDAO {
     private static final String SQL_BASE =
         "SELECT d.*, " +

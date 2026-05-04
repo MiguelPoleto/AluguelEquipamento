@@ -3,6 +3,9 @@ package br.com.aluguelequipamento.model.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/*
+    Miguel
+*/
 public class Reserva {
     private int id;
     private int clienteId;

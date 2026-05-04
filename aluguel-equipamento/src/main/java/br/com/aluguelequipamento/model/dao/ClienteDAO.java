@@ -11,6 +11,9 @@ import java.util.List;
 import br.com.aluguelequipamento.model.domain.Cliente;
 
 
+/*
+    Alessandro
+*/
 public class ClienteDAO {
 public List<Cliente> listar() throws SQLException {
         List<Cliente> lista = new ArrayList<>();

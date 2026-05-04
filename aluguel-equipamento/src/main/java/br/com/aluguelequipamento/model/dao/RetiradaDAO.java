@@ -11,6 +11,9 @@ import java.util.List;
 
 import br.com.aluguelequipamento.model.domain.Retirada;
 
+/*
+    Alessandro
+*/
 public class RetiradaDAO {
     private static final String SQL_BASE =
         "SELECT rt.*, c.nome AS nome_cliente, e.nome AS nome_equipamento " +

@@ -3,6 +3,9 @@ package br.com.aluguelequipamento.model.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/*
+    Miguel
+*/
 public class Equipamento {
     private int id;
     private String nome;

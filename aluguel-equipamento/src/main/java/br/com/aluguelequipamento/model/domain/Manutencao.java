@@ -2,6 +2,9 @@ package br.com.aluguelequipamento.model.domain;
 
 import java.time.LocalDate;
 
+/*
+    Miguel
+*/
 public class Manutencao {
      private int id;
     private int equipamentoId;

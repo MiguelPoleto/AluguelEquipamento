@@ -2,6 +2,9 @@ package br.com.aluguelequipamento.model.domain;
 
 import java.time.LocalDate;
 
+/*
+    Alessandro
+*/
 public class Cliente {
     private int id;
     private String nome;

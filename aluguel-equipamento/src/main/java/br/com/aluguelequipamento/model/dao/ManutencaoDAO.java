@@ -12,6 +12,9 @@ import java.util.List;
 import br.com.aluguelequipamento.model.domain.Manutencao;
 
 
+/*
+    Miguel
+*/
 public class ManutencaoDAO {
     private static final String SQL_BASE =
         "SELECT m.*, e.nome AS nome_equipamento " +
