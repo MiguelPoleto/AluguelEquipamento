@@ -1,191 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
-
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.com.aluguelequipamento.controller.PrimaryController"
-            prefWidth="900" prefHeight="600"
-            style="-fx-background-color: #f0f2f5;">
-
-    <!-- TOPO -->
-    <top>
-        <VBox>
-            <!-- Barra de menu -->
-            <MenuBar style="-fx-background-color: #1a3a5c;">
-                <Menu text="Arquivo" style="-fx-text-fill: white;">
-                    <MenuItem text="Sair" onAction="#sair"/>
-                </Menu>
-                <Menu text="Cadastros">
-                    <MenuItem text="Equipamentos" onAction="#abrirEquipamentos"/>
-                    <MenuItem text="Clientes"     onAction="#abrirClientes"/>
-                </Menu>
-                <Menu text="Processos">
-                    <MenuItem text="Reservas"    onAction="#abrirReservas"/>
-                    <MenuItem text="Retiradas"   onAction="#abrirRetiradas"/>
-                    <MenuItem text="Devoluções"  onAction="#abrirDevolucoes"/>
-                    <MenuItem text="Manutenções" onAction="#abrirManutencoes"/>
-                </Menu>
-                <Menu text="Relatórios">
-                    <MenuItem text="Relatório de Aluguel"  onAction="#abrirRelatorioAluguel"/>
-                    <MenuItem text="Listagem de Reservas"  onAction="#abrirRelatorioReservas"/>
-                    <MenuItem text="Manutenção"            onAction="#abrirRelatorioManutencao"/>
-                </Menu>
-            </MenuBar>
-
-            <!-- Cabeçalho azul -->
-            <HBox style="-fx-background-color: #2a5480; -fx-padding: 14 20;"
-                  alignment="CENTER_LEFT" spacing="12">
-                <Label text="🔧" style="-fx-font-size: 22;"/>
-                <VBox>
-                    <Label text="Sistema de Aluguel de Equipamentos"
+            prefWidth="920" prefHeight="620"
+            style="-fx-background-color: #f0f2f5;"
+            stylesheets="@css/primary.css">
+       <!-- TOPO -->
+       <top>
+              <VBox>
+                     <MenuBar>
+                            <Menu text="Arquivo">
+                                   <MenuItem text="Sair" onAction="#sair"/>
+                            </Menu>
+                            <Menu text="Cadastros">
+                                   <MenuItem text="Equipamentos" onAction="#abrirEquipamentos"/>
+                                   <MenuItem text="Clientes"     onAction="#abrirClientes"/>
+                            </Menu>
+                            <Menu text="Processos">
+                                   <MenuItem text="Reservas"    onAction="#abrirReservas"/>
+                                   <MenuItem text="Retiradas"   onAction="#abrirRetiradas"/>
+                                   <MenuItem text="Devoluções"  onAction="#abrirDevolucoes"/>
+                                   <MenuItem text="Manutenções" onAction="#abrirManutencoes"/>
+                            </Menu>
+                            <Menu text="Relatórios">
+                                   <MenuItem text="Relatório de Aluguel" onAction="#abrirRelatorioAluguel"/>
+                                   <MenuItem text="Listagem de Reservas" onAction="#abrirRelatorioReservas"/>
+                                   <MenuItem text="Manutenção"           onAction="#abrirRelatorioManutencao"/>
+                            </Menu>
+                     </MenuBar>
+                     <HBox style="-fx-background-color: #2a5480; -fx-padding: 14 20;"
+                  alignment="CENTER_LEFT" spacing="14">
+                            <Label text="ALUGUEL DE EQUIPAMENTOS"
+                       style="-fx-font-size: 11; -fx-font-weight: bold;
+                              -fx-text-fill: #aacce8; -fx-padding: 4 10;
+                              -fx-background-color: #1a3a5c;
+                              -fx-background-radius: 4;"/>
+                            <VBox>
+                                   <Label text="Sistema de Aluguel de Equipamentos"
                            style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: white;"/>
-                    <Label text="Gerencie reservas, retiradas, devoluções e manutenções"
+                                   <Label text="Gerencie reservas, retiradas, devoluções e manutenções"
                            style="-fx-font-size: 11; -fx-text-fill: #aacce8;"/>
-                </VBox>
-            </HBox>
-        </VBox>
-    </top>
-
-    <!-- LATERAL ESQUERDA -->
-    <left>
-        <VBox style="-fx-background-color: white; -fx-border-color: #dde1e7;
-                     -fx-border-width: 0 1 0 0;" prefWidth="200" spacing="2">
-            <padding><Insets top="16" left="0" right="0" bottom="16"/></padding>
-
-            <Label text="CADASTROS"
-                   style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #8a9bb0;
-                          -fx-padding: 0 0 4 16;"/>
-            <Button text="  Equipamentos" maxWidth="Infinity"
-                    onAction="#abrirEquipamentos"
-                    style="-fx-background-color: transparent; -fx-alignment: CENTER_LEFT;
-                           -fx-padding: 9 16; -fx-font-size: 13; -fx-cursor: hand;"/>
-            <Button text="  Clientes" maxWidth="Infinity"
-                    onAction="#abrirClientes"
-                    style="-fx-background-color: transparent; -fx-alignment: CENTER_LEFT;
-                           -fx-padding: 9 16; -fx-font-size: 13; -fx-cursor: hand;"/>
-
-            <Separator style="-fx-padding: 8 0;"/>
-
-            <Label text="PROCESSOS"
-                   style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #8a9bb0;
-                          -fx-padding: 4 0 4 16;"/>
-            <Button text="  Reservas" maxWidth="Infinity"
-                    onAction="#abrirReservas"
-                    style="-fx-background-color: transparent; -fx-alignment: CENTER_LEFT;
-                           -fx-padding: 9 16; -fx-font-size: 13; -fx-cursor: hand;"/>
-            <Button text="  Retiradas" maxWidth="Infinity"
-                    onAction="#abrirRetiradas"
-                    style="-fx-background-color: transparent; -fx-alignment: CENTER_LEFT;
-                           -fx-padding: 9 16; -fx-font-size: 13; -fx-cursor: hand;"/>
-            <Button text="  Devoluções" maxWidth="Infinity"
-                    onAction="#abrirDevolucoes"
-                    style="-fx-background-color: transparent; -fx-alignment: CENTER_LEFT;
-                           -fx-padding: 9 16; -fx-font-size: 13; -fx-cursor: hand;"/>
-            <Button text="  Manutenções" maxWidth="Infinity"
-                    onAction="#abrirManutencoes"
-                    style="-fx-background-color: transparent; -fx-alignment: CENTER_LEFT;
-                           -fx-padding: 9 16; -fx-font-size: 13; -fx-cursor: hand;"/>
-        </VBox>
-    </left>
-
-    <!-- CENTRO — cards de resumo -->
-    <center>
-        <VBox spacing="20" style="-fx-padding: 30;">
-
-            <Label text="Visão Geral"
+                            </VBox>
+                     </HBox>
+              </VBox>
+       </top>
+       <!-- SIDEBAR -->
+       <left>
+              <VBox style="-fx-background-color: white; -fx-border-color: #dde1e7;
+                     -fx-border-width: 0 1 0 0;" prefWidth="195" spacing="1">
+                     <padding>
+                            <Insets top="12" bottom="16"/>
+                     </padding>
+                     <Label text="CADASTROS" styleClass="section-label"/>
+                     <Button text="  Equipamentos" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirEquipamentos"/>
+                     <Button text="  Clientes" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirClientes"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="PROCESSOS" styleClass="section-label"/>
+                     <Button text="  Reservas" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirReservas"/>
+                     <Button text="  Retiradas" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirRetiradas"/>
+                     <Button text="  Devoluções" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirDevolucoes"/>
+                     <Button text="  Manutenções" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirManutencoes"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="RELATÓRIOS" styleClass="section-label"/>
+                     <Button text="  Relatório de Aluguel" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirRelatorioAluguel"/>
+                     <Button text="  Listagem de Reservas" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirRelatorioReservas"/>
+                     <Button text="  Manutenção" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirRelatorioManutencao"/>
+              </VBox>
+       </left>
+       <!-- CENTRO -->
+       <center>
+              <VBox spacing="20" style="-fx-padding: 30;">
+                     <Label text="Visão Geral"
                    style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-
-            <!-- Linha 1 de cards -->
-            <HBox spacing="16">
-                <!-- Card Equipamentos -->
-                <VBox style="-fx-background-color: white; -fx-background-radius: 10;
-                             -fx-border-color: #dde1e7; -fx-border-radius: 10;
-                             -fx-padding: 18; -fx-cursor: hand;"
-                      prefWidth="180" spacing="6" onMouseClicked="#abrirEquipamentos">
-                    <Label text="🔧" style="-fx-font-size: 24;"/>
-                    <Label text="Equipamentos"
-                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                    <Label fx:id="lblEquipamentos" text="Carregando..."
-                           style="-fx-font-size: 12; -fx-text-fill: #6b7c93;"/>
-                </VBox>
-
-                <!-- Card Clientes -->
-                <VBox style="-fx-background-color: white; -fx-background-radius: 10;
-                             -fx-border-color: #dde1e7; -fx-border-radius: 10;
-                             -fx-padding: 18; -fx-cursor: hand;"
-                      prefWidth="180" spacing="6" onMouseClicked="#abrirClientes">
-                    <Label text="👤" style="-fx-font-size: 24;"/>
-                    <Label text="Clientes"
-                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                    <Label fx:id="lblClientes" text="Carregando..."
-                           style="-fx-font-size: 12; -fx-text-fill: #6b7c93;"/>
-                </VBox>
-
-                <!-- Card Reservas -->
-                <VBox style="-fx-background-color: white; -fx-background-radius: 10;
-                             -fx-border-color: #dde1e7; -fx-border-radius: 10;
-                             -fx-padding: 18; -fx-cursor: hand;"
-                      prefWidth="180" spacing="6" onMouseClicked="#abrirReservas">
-                    <Label text="📋" style="-fx-font-size: 24;"/>
-                    <Label text="Reservas Ativas"
-                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                    <Label fx:id="lblReservas" text="Carregando..."
-                           style="-fx-font-size: 12; -fx-text-fill: #6b7c93;"/>
-                </VBox>
-            </HBox>
-
-            <!-- Linha 2 de cards -->
-            <HBox spacing="16">
-                <!-- Card Retiradas -->
-                <VBox style="-fx-background-color: white; -fx-background-radius: 10;
-                             -fx-border-color: #dde1e7; -fx-border-radius: 10;
-                             -fx-padding: 18; -fx-cursor: hand;"
-                      prefWidth="180" spacing="6" onMouseClicked="#abrirRetiradas">
-                    <Label text="📦" style="-fx-font-size: 24;"/>
-                    <Label text="Retiradas"
-                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                    <Label fx:id="lblRetiradas" text="Carregando..."
-                           style="-fx-font-size: 12; -fx-text-fill: #6b7c93;"/>
-                </VBox>
-
-                <!-- Card Manutenções -->
-                <VBox style="-fx-background-color: white; -fx-background-radius: 10;
-                             -fx-border-color: #dde1e7; -fx-border-radius: 10;
-                             -fx-padding: 18; -fx-cursor: hand;"
-                      prefWidth="180" spacing="6" onMouseClicked="#abrirManutencoes">
-                    <Label text="🛠️" style="-fx-font-size: 24;"/>
-                    <Label text="Manutenções"
-                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                    <Label fx:id="lblManutencoes" text="Carregando..."
-                           style="-fx-font-size: 12; -fx-text-fill: #6b7c93;"/>
-                </VBox>
-
-                <!-- Card Relatórios -->
-                <VBox style="-fx-background-color: white; -fx-background-radius: 10;
-                             -fx-border-color: #dde1e7; -fx-border-radius: 10;
-                             -fx-padding: 18; -fx-cursor: hand;"
-                      prefWidth="180" spacing="6">
-                    <Label text="📊" style="-fx-font-size: 24;"/>
-                    <Label text="Relatórios"
-                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                    <Label text="Aluguel · Reservas · Manutenção"
-                           style="-fx-font-size: 12; -fx-text-fill: #6b7c93;"/>
-                </VBox>
-            </HBox>
-        </VBox>
-    </center>
-
-    <!-- RODAPÉ -->
-    <bottom>
-        <HBox style="-fx-background-color: #1a3a5c; -fx-padding: 6 16;" spacing="16"
-              alignment="CENTER_LEFT">
-            <Label text="Sistema de Aluguel de Equipamentos v1.0"
+                     <!-- Linha 1 -->
+                     <HBox spacing="16">
+                            <VBox styleClass="card" prefWidth="185" spacing="8"
+                      onMouseClicked="#abrirEquipamentos">
+                                   <Label text="EQP" styleClass="card-tag"
+                           style="-fx-background-color: #2a5480;"/>
+                                   <Label text="Equipamentos" styleClass="card-title"/>
+                                   <Label fx:id="lblEquipamentos" text="Carregando..."
+                           styleClass="card-sub"/>
+                            </VBox>
+                            <VBox styleClass="card" prefWidth="185" spacing="8"
+                      onMouseClicked="#abrirClientes">
+                                   <Label text="CLI" styleClass="card-tag"
+                           style="-fx-background-color: #1e6b3a;"/>
+                                   <Label text="Clientes" styleClass="card-title"/>
+                                   <Label fx:id="lblClientes" text="Carregando..."
+                           styleClass="card-sub"/>
+                            </VBox>
+                            <VBox styleClass="card" prefWidth="185" spacing="8"
+                      onMouseClicked="#abrirReservas">
+                                   <Label text="RES" styleClass="card-tag"
+                           style="-fx-background-color: #7a4200;"/>
+                                   <Label text="Reservas Ativas" styleClass="card-title"/>
+                                   <Label fx:id="lblReservas" text="Carregando..."
+                           styleClass="card-sub"/>
+                            </VBox>
+                     </HBox>
+                     <!-- Linha 2 -->
+                     <HBox spacing="16">
+                            <VBox styleClass="card" prefWidth="185" spacing="8"
+                      onMouseClicked="#abrirRetiradas">
+                                   <Label text="RET" styleClass="card-tag"
+                           style="-fx-background-color: #1a4f7a;"/>
+                                   <Label text="Retiradas" styleClass="card-title"/>
+                                   <Label fx:id="lblRetiradas" text="Carregando..."
+                           styleClass="card-sub"/>
+                            </VBox>
+                            <VBox styleClass="card" prefWidth="185" spacing="8"
+                      onMouseClicked="#abrirManutencoes">
+                                   <Label text="MAN" styleClass="card-tag"
+                           style="-fx-background-color: #8b1a1a;"/>
+                                   <Label text="Manutenções" styleClass="card-title"/>
+                                   <Label fx:id="lblManutencoes" text="Carregando..."
+                           styleClass="card-sub"/>
+                            </VBox>
+                            <VBox styleClass="card" prefWidth="185" spacing="8">
+                                   <Label text="REL" styleClass="card-tag"
+                           style="-fx-background-color: #4a2a7a;"/>
+                                   <Label text="Relatórios" styleClass="card-title"/>
+                                   <Label text="Aluguel  ·  Reservas  ·  Manutenção"
+                           styleClass="card-sub"/>
+                            </VBox>
+                     </HBox>
+              </VBox>
+       </center>
+       <!-- RODAPÉ -->
+       <bottom>
+              <HBox style="-fx-background-color: #1a3a5c; -fx-padding: 7 16;"
+              spacing="12" alignment="CENTER_LEFT">
+                     <Label text="Sistema de Aluguel de Equipamentos v1.0"
                    style="-fx-text-fill: #aacce8; -fx-font-size: 11;"/>
-            <Label text="|" style="-fx-text-fill: #4a6a8c;"/>
-            <Label text="PostgreSQL" style="-fx-text-fill: #aacce8; -fx-font-size: 11;"/>
-        </HBox>
-    </bottom>
+                     <Label text="|" style="-fx-text-fill: #3a5a7c;"/>
+                     <Label text="PostgreSQL"
+                   style="-fx-text-fill: #aacce8; -fx-font-size: 11;"/>
+                     <Label text="|" style="-fx-text-fill: #3a5a7c;"/>
+                     <Label text="Desenvolvido por: Alessandro Mion Batista  •  Miguel Santuchi Poleto"
+                   style="-fx-text-fill: #aacce8; -fx-font-size: 11;"/>
+              </HBox>
+       </bottom>
 </BorderPane>

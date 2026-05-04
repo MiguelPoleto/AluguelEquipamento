@@ -1,0 +1,72 @@
+/* ── Menu bar ── */
+.menu-bar {
+    -fx-background-color: #1a3a5c;
+    -fx-padding: 2 0;
+}
+.menu-bar .menu .label {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+}
+.menu-bar .menu:hover .label,
+.menu-bar .menu:focused .label,
+.menu-bar .menu:showing .label {
+    -fx-text-fill: #aacce8;
+}
+.menu-bar .menu:hover,
+.menu-bar .menu:focused,
+.menu-bar .menu:showing {
+    -fx-background-color: #2a5480;
+}
+
+/* ── Sidebar buttons ── */
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 9 16;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-text-fill: #3a4a5c;
+}
+.sidebar-btn:hover {
+    -fx-background-color: #eef2f7;
+    -fx-text-fill: #1a3a5c;
+}
+
+/* ── Cards ── */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 10;
+    -fx-padding: 18;
+    -fx-cursor: hand;
+}
+.card:hover {
+    -fx-border-color: #2a5480;
+    -fx-background-color: #f7faff;
+}
+.card-tag {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 3 10;
+}
+.card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a3a5c;
+}
+.card-sub {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7c93;
+}
+
+/* ── Sidebar labels ── */
+.section-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8a9bb0;
+    -fx-padding: 8 0 4 16;
+}
