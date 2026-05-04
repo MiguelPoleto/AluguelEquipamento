@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="620" prefWidth="920" style="-fx-background-color: #f0f2f5;" stylesheets="@css/cliente.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="br.com.aluguelequipamento.controller.ClienteController">
+
+    <!-- ══ TOPO ══ -->
+    <top>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #2a5480; -fx-padding: 12 20;">
+                <Label style="-fx-font-size: 11; -fx-font-weight: bold;                               -fx-text-fill: #aacce8; -fx-padding: 4 10;                               -fx-background-color: #1a3a5c;                               -fx-background-radius: 4;" text="CLI" />
+                <VBox>
+                    <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: white;" text="Cadastro de Clientes" />
+                    <Label style="-fx-font-size: 11; -fx-text-fill: #aacce8;" text="Gerencie os clientes cadastrados no sistema" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ══ CENTRO ══ -->
+    <center>
+        <VBox spacing="0" style="-fx-padding: 20 24 16 24;">
+
+            <!-- ── Barra de ações superior ── -->
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="action-bar">
+                <Label styleClass="section-label-inline" text="CLIENTES CADASTRADOS" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnNovo" onAction="#handleNovo" styleClass="btn-primary" text="＋  Novo" />
+                <Button fx:id="btnSalvar" onAction="#handleSalvar" styleClass="btn-success" text="✔  Salvar" />
+                <Button fx:id="btnExcluir" onAction="#handleExcluir" styleClass="btn-danger" text="✖  Excluir" />
+                <Button fx:id="btnLimpar" onAction="#handleLimpar" styleClass="btn-secondary" text="↺  Limpar" />
+            </HBox>
+
+            <!-- ── Tabela ── -->
+            <VBox styleClass="card-table" VBox.vgrow="NEVER">
+                <TableView fx:id="tableView" maxHeight="240" prefHeight="240" style="-fx-background-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="52" style="-fx-alignment: CENTER;" text="ID" />
+                        <TableColumn fx:id="colNome" prefWidth="190" text="Nome" />
+                        <TableColumn fx:id="colCpf" prefWidth="120" text="CPF" />
+                        <TableColumn fx:id="colTelefone" prefWidth="120" text="Telefone" />
+                        <TableColumn fx:id="colEmail" prefWidth="190" text="E-mail" />
+                        <TableColumn fx:id="colDataCadastro" prefWidth="110" text="Cadastrado em" />
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 30;">
+                            <Label style="-fx-font-size: 13; -fx-text-fill: #8a9bb0;" text="Nenhum cliente cadastrado." />
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #b0bec5;" text="Clique em '＋ Novo' para começar." />
+                        </VBox>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+            <!-- ── Formulário ── -->
+            <VBox spacing="0" styleClass="card-form" VBox.vgrow="ALWAYS">
+
+                <!-- Cabeçalho do form -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="form-header">
+                    <Label fx:id="lblFormTitulo" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;" text="Novo Cliente" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblMensagem" styleClass="msg-label" text="" />
+                </HBox>
+
+                <!-- Grid de campos -->
+                <GridPane hgap="16" style="-fx-padding: 18 20 14 20;" vgap="14">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="100" prefWidth="110" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="160" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="100" prefWidth="110" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="160" />
+                    </columnConstraints>
+
+                    <!-- Linha 1 -->
+                    <Label styleClass="field-label" text="Nome *" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <TextField fx:id="txtNome" maxWidth="Infinity" promptText="Nome completo do cliente" styleClass="field-input" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="0" />
+
+                    <!-- Linha 2 -->
+                    <Label styleClass="field-label" text="CPF *" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtCpf" maxWidth="Infinity" promptText="000.000.000-00" styleClass="field-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label styleClass="field-label" text="Telefone *" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtTelefone" maxWidth="Infinity" promptText="(00) 00000-0000" styleClass="field-input" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                    <!-- Linha 3 -->
+                    <Label styleClass="field-label" text="E-mail" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtEmail" maxWidth="Infinity" promptText="exemplo@email.com" styleClass="field-input" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+
+                    <!-- Linha 4 -->
+                    <Label styleClass="field-label" text="Endereço" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtEndereco" maxWidth="Infinity" promptText="Rua, número — Bairro, Cidade/UF" styleClass="field-input" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+
+                    <!-- Linha 5 -->
+                    <Label styleClass="field-label" text="Data Cadastro *" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <DatePicker fx:id="dpDataCadastro" maxWidth="190" styleClass="field-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                    <Label styleClass="hint-label" text="* Campos obrigatórios" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+
+            </VBox>
+
+        </VBox>
+    </center>
+
+    <!-- ══ RODAPÉ ══ -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #1a3a5c; -fx-padding: 7 16;">
+            <Label style="-fx-text-fill: #aacce8; -fx-font-size: 11;" text="Cadastro de Clientes" />
+            <Label style="-fx-text-fill: #3a5a7c;" text="|" />
+            <Label fx:id="lblStatus" style="-fx-text-fill: #aacce8; -fx-font-size: 11;" text="Pronto." />
+        </HBox>
+    </bottom>
+
+</BorderPane>

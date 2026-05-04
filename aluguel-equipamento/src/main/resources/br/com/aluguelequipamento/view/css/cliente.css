@@ -1,0 +1,247 @@
+/* ═══════════════════════════════════════════════════════════════
+   cliente.css  —  Cadastro de Clientes
+   Paleta e tokens idênticos ao primary.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Root / fundo ── */
+.root {
+    -fx-background-color: #f0f2f5;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* ══════════════════════════════════════
+   SECTION LABELS  (rótulos de seção)
+   ══════════════════════════════════════ */
+.section-label-inline {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8a9bb0;
+    -fx-padding: 0 0 0 2;
+}
+
+/* ══════════════════════════════════════
+   ACTION BAR  (barra de ações)
+   ══════════════════════════════════════ */
+.action-bar {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 10 14;
+}
+
+/* ══════════════════════════════════════
+   CARD TABELA
+   ══════════════════════════════════════ */
+.card-table {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-width: 0 1 1 1;
+    -fx-padding: 0;
+}
+
+/* TableView sem bordas próprias */
+.card-table .table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Cabeçalho das colunas */
+.card-table .table-view .column-header-background {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: transparent transparent #dde1e7 transparent;
+}
+
+.card-table .table-view .column-header .label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3a4a5c;
+    -fx-padding: 8 10;
+}
+
+/* Linhas */
+.card-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f0f2f5 transparent;
+    -fx-cell-size: 36px;
+}
+
+.card-table .table-row-cell:odd {
+    -fx-background-color: #fafbfc;
+}
+
+.card-table .table-row-cell:hover {
+    -fx-background-color: #eef2f7;
+}
+
+.card-table .table-row-cell:selected {
+    -fx-background-color: #d8e8f7;
+    -fx-border-color: transparent transparent #b0cce8 transparent;
+}
+
+.card-table .table-row-cell:selected .text {
+    -fx-fill: #1a3a5c;
+}
+
+/* Células */
+.card-table .table-cell {
+    -fx-font-size: 12px;
+    -fx-text-fill: #3a4a5c;
+    -fx-padding: 0 10;
+}
+
+/* Scroll bar invisível quando não necessário */
+.card-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #ccd8e8;
+    -fx-background-radius: 6;
+}
+.card-table .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+/* ══════════════════════════════════════
+   CARD FORMULÁRIO
+   ══════════════════════════════════════ */
+.card-form {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-width: 0 1 1 1;
+    -fx-border-radius: 0 0 10 10;
+    -fx-background-radius: 0 0 10 10;
+}
+
+/* Cabeçalho interno do form */
+.form-header {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: transparent transparent #dde1e7 transparent;
+    -fx-padding: 10 20;
+}
+
+/* ── Field labels ── */
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3a4a5c;
+}
+
+/* ── Inputs ── */
+.field-input,
+.field-input .date-picker-display-node,
+.date-picker > .text-field {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: #ccd8e8;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 7 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1a3a5c;
+    -fx-prompt-text-fill: #b0bec5;
+}
+
+.field-input:focused,
+.date-picker:focused > .text-field {
+    -fx-background-color: white;
+    -fx-border-color: #2a5480;
+    -fx-border-width: 1.5;
+}
+
+/* DatePicker — esconde a borda interna duplicada */
+.date-picker {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+.date-picker .arrow-button {
+    -fx-background-color: #e8eef7;
+    -fx-border-color: #ccd8e8;
+    -fx-border-radius: 0 5 5 0;
+    -fx-padding: 0 8;
+}
+.date-picker .arrow-button:hover {
+    -fx-background-color: #d0dff0;
+}
+
+/* ── Hint / obrigatórios ── */
+.hint-label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #b0bec5;
+    -fx-font-style: italic;
+}
+
+/* ── Mensagem de feedback inline ── */
+.msg-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+.msg-label.sucesso { -fx-text-fill: #1e6b3a; }
+.msg-label.erro    { -fx-text-fill: #8b1a1a; }
+.msg-label.aviso   { -fx-text-fill: #7a4200; }
+
+/* ══════════════════════════════════════
+   BOTÕES DE AÇÃO
+   ══════════════════════════════════════ */
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-secondary {
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 7 16;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-width: 0;
+}
+
+/* Novo — azul principal */
+.btn-primary {
+    -fx-background-color: #2a5480;
+    -fx-text-fill: white;
+}
+.btn-primary:hover  { -fx-background-color: #1a3a5c; }
+.btn-primary:pressed{ -fx-background-color: #12283f; }
+
+/* Salvar — verde */
+.btn-success {
+    -fx-background-color: #1e6b3a;
+    -fx-text-fill: white;
+}
+.btn-success:hover  { -fx-background-color: #165229; }
+.btn-success:pressed{ -fx-background-color: #0f3a1c; }
+
+/* Excluir — vermelho */
+.btn-danger {
+    -fx-background-color: #8b1a1a;
+    -fx-text-fill: white;
+}
+.btn-danger:hover  { -fx-background-color: #6e1313; }
+.btn-danger:pressed{ -fx-background-color: #500e0e; }
+
+/* Limpar — cinza neutro */
+.btn-secondary {
+    -fx-background-color: #e8eef7;
+    -fx-text-fill: #3a4a5c;
+    -fx-border-color: #ccd8e8;
+    -fx-border-width: 1;
+}
+.btn-secondary:hover  { -fx-background-color: #d0dff0; }
+.btn-secondary:pressed{ -fx-background-color: #b8cce0; }
+
+/* ══════════════════════════════════════
+   SCROLL BARS GLOBAIS
+   ══════════════════════════════════════ */
+.scroll-bar .thumb {
+    -fx-background-color: #ccd8e8;
+    -fx-background-radius: 6;
+}
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 2;
+}
