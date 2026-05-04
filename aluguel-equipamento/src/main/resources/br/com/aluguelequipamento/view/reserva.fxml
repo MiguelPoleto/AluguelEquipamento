@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.aluguelequipamento.controller.ReservaController"
+            prefWidth="920" prefHeight="620"
+            stylesheets="@css/reserva.css">
+
+    <top>
+        <VBox>
+            <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Label text="RES" styleClass="card-tag"/>
+                <VBox>
+                    <Label text="Reservas" styleClass="header-title"/>
+                    <Label text="Processo de negócio de reserva de equipamentos" styleClass="header-subtitle"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <HBox spacing="0">
+            <VBox styleClass="table-container" prefWidth="570">
+                <padding>
+                    <Insets top="16" left="16" right="16" bottom="16"/>
+                </padding>
+
+                <GridPane hgap="8" vgap="8" styleClass="search-bar">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="23"/>
+                        <ColumnConstraints percentWidth="27"/>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="10"/>
+                        <ColumnConstraints percentWidth="10"/>
+                    </columnConstraints>
+
+                    <ComboBox fx:id="cbFiltroStatus"
+                              promptText="Status"
+                              maxWidth="Infinity"
+                              styleClass="input"
+                              GridPane.columnIndex="0"/>
+
+                    <ComboBox fx:id="cbFiltroCliente"
+                              promptText="Cliente"
+                              maxWidth="Infinity"
+                              styleClass="input"
+                              GridPane.columnIndex="1"/>
+
+                    <ComboBox fx:id="cbFiltroEquipamento"
+                              promptText="Equipamento"
+                              maxWidth="Infinity"
+                              styleClass="input"
+                              GridPane.columnIndex="2"/>
+
+                    <Button text="Filtrar"
+                            onAction="#filtrar"
+                            maxWidth="Infinity"
+                            styleClass="btn-primary"
+                            GridPane.columnIndex="3"/>
+
+                    <Button text="Todos"
+                            onAction="#listarTodos"
+                            maxWidth="Infinity"
+                            styleClass="btn-secondary"
+                            GridPane.columnIndex="4"/>
+                </GridPane>
+
+                <TableView fx:id="tableReservas"
+                           VBox.vgrow="ALWAYS"
+                           onMouseClicked="#selecionarReserva"
+                           styleClass="table">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="45"/>
+                        <TableColumn fx:id="colCliente" text="Cliente" prefWidth="125"/>
+                        <TableColumn fx:id="colEquipamento" text="Equipamento" prefWidth="135"/>
+                        <TableColumn fx:id="colDataInicio" text="Início" prefWidth="80"/>
+                        <TableColumn fx:id="colDataFim" text="Fim" prefWidth="80"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="85"/>
+                    </columns>
+
+                    <placeholder>
+                        <Label text="Nenhuma reserva encontrada." styleClass="placeholder"/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+            <VBox prefWidth="350" spacing="12" styleClass="form-container">
+                <Label fx:id="lblTituloForm"
+                       text="Nova Reserva"
+                       styleClass="form-title"/>
+
+                <Separator/>
+
+                <Label text="Cliente *" styleClass="section-label"/>
+                <ComboBox fx:id="cbCliente"
+                          promptText="Selecione o cliente"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Equipamento *" styleClass="section-label"/>
+                <ComboBox fx:id="cbEquipamento"
+                          promptText="Selecione o equipamento"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Data Inicial *" styleClass="section-label"/>
+                <DatePicker fx:id="dpDataInicio"
+                            maxWidth="Infinity"
+                            styleClass="input"/>
+
+                <Label text="Data Final *" styleClass="section-label"/>
+                <DatePicker fx:id="dpDataFim"
+                            maxWidth="Infinity"
+                            styleClass="input"/>
+
+                <Label text="Status *" styleClass="section-label"/>
+                <ComboBox fx:id="cbStatus"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Observação" styleClass="section-label"/>
+                <TextArea fx:id="txtObservacao"
+                          promptText="Observações da reserva"
+                          prefRowCount="4"
+                          wrapText="true"
+                          styleClass="input"/>
+
+                <Separator/>
+
+                <Label fx:id="lblErro"
+                       text=""
+                       wrapText="true"
+                       styleClass="error-label"/>
+
+                <HBox spacing="8">
+                    <Button text="Salvar"
+                            onAction="#salvar"
+                            prefWidth="95"
+                            styleClass="btn-primary"/>
+
+                    <Button fx:id="btnExcluir"
+                            text="Excluir"
+                            onAction="#excluir"
+                            prefWidth="95"
+                            disable="true"
+                            styleClass="btn-danger"/>
+
+                    <Button text="Limpar"
+                            onAction="#limpar"
+                            prefWidth="95"
+                            styleClass="btn-secondary"/>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Button onAction="#voltarMenu" styleClass="btn-back">
+                        <graphic>
+                            <Label text="←"/>
+                        </graphic>
+                        <text> Voltar</text>
+                    </Button>
+                </HBox>
+            </VBox>
+        </HBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="footer" spacing="12" alignment="CENTER_LEFT">
+            <Label text="Sistema de Aluguel de Equipamentos v1.0" styleClass="footer-text"/>
+            <Label text="|" styleClass="footer-separator"/>
+            <Label text="Desenvolvido por: Alessandro Mion Batista  •  Miguel Santuchi Poleto"
+                   styleClass="footer-text"/>
+        </HBox>
+    </bottom>
+</BorderPane>

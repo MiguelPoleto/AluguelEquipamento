@@ -1,6 +1,7 @@
 package br.com.aluguelequipamento.model.dao;
 
 import java.sql.Date;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -56,14 +57,16 @@ public class ReservaDAO {
      * RN: Um item nao pode ser alugado se ja existir reserva de outro cliente no periodo.
      */
     public boolean existeConflito(int equipamentoId, java.time.LocalDate inicio,
-                                   java.time.LocalDate fim, int idIgnorar) throws SQLException {
-        String sql = "SELECT id FROM reserva WHERE equipamento_id = ? AND id <> ? AND status = \'ativa\' " +
+                                   java.time.LocalDate fim, int clienteId, int idIgnorar) throws SQLException {
+        String sql = "SELECT id FROM reserva WHERE equipamento_id = ? AND cliente_id <> ? " +
+                     "AND id <> ? AND status = \'ativa\' " +
                      "AND NOT (data_fim < ? OR data_inicio > ?)";
         try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
             ps.setInt(1, equipamentoId);
-            ps.setInt(2, idIgnorar);
-            ps.setDate(3, Date.valueOf(inicio));
-            ps.setDate(4, Date.valueOf(fim));
+            ps.setInt(2, clienteId);
+            ps.setInt(3, idIgnorar);
+            ps.setDate(4, Date.valueOf(inicio));
+            ps.setDate(5, Date.valueOf(fim));
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
@@ -71,9 +74,33 @@ public class ReservaDAO {
     }
 
     public void inserir(Reserva r) throws SQLException {
+        Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+            validarCliente(conn, r.getClienteId());
+            validarEquipamento(conn, r.getEquipamentoId());
+            if (existeConflito(conn, r.getEquipamentoId(), r.getDataInicio(), r.getDataFim(), r.getClienteId(), 0)) {
+                throw new SQLException("Equipamento ja possui reserva ativa de outro cliente neste periodo.");
+            }
+
+            inserir(conn, r);
+            if ("ativa".equals(r.getStatus())) {
+                atualizarStatusEquipamento(conn, r.getEquipamentoId(), "reservado");
+            }
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
+        }
+    }
+
+    private void inserir(Connection conn, Reserva r) throws SQLException {
         String sql = "INSERT INTO reserva (cliente_id, equipamento_id, data_inicio, data_fim, status, observacao) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, r.getClienteId());
             ps.setInt(2, r.getEquipamentoId());
             ps.setDate(3, Date.valueOf(r.getDataInicio()));
@@ -85,9 +112,42 @@ public class ReservaDAO {
     }
 
     public void alterar(Reserva r) throws SQLException {
+        Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+            validarCliente(conn, r.getClienteId());
+            validarEquipamento(conn, r.getEquipamentoId());
+            if ("ativa".equals(r.getStatus())
+                    && existeConflito(conn, r.getEquipamentoId(), r.getDataInicio(), r.getDataFim(), r.getClienteId(), r.getId())) {
+                throw new SQLException("Equipamento ja possui reserva ativa de outro cliente neste periodo.");
+            }
+
+            int equipamentoAnteriorId = buscarEquipamentoId(conn, r.getId());
+            alterar(conn, r);
+
+            if ("ativa".equals(r.getStatus())) {
+                atualizarStatusEquipamento(conn, r.getEquipamentoId(), "reservado");
+            }
+            if (equipamentoAnteriorId != r.getEquipamentoId()) {
+                liberarEquipamentoSemReservaAtiva(conn, equipamentoAnteriorId);
+            }
+            if (!"ativa".equals(r.getStatus())) {
+                liberarEquipamentoSemReservaAtiva(conn, r.getEquipamentoId());
+            }
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
+        }
+    }
+
+    private void alterar(Connection conn, Reserva r) throws SQLException {
         String sql = "UPDATE reserva SET cliente_id=?, equipamento_id=?, data_inicio=?, " +
                      "data_fim=?, status=?, observacao=? WHERE id=?";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, r.getClienteId());
             ps.setInt(2, r.getEquipamentoId());
             ps.setDate(3, Date.valueOf(r.getDataInicio()));
@@ -109,9 +169,101 @@ public class ReservaDAO {
     }
 
     public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM reserva WHERE id = ?";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
+        Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+            int equipamentoId = buscarEquipamentoId(conn, id);
+            String sql = "DELETE FROM reserva WHERE id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+            liberarEquipamentoSemReservaAtiva(conn, equipamentoId);
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
+        }
+    }
+
+    private boolean existeConflito(Connection conn, int equipamentoId, java.time.LocalDate inicio,
+                                   java.time.LocalDate fim, int clienteId, int idIgnorar) throws SQLException {
+        String sql = "SELECT id FROM reserva WHERE equipamento_id = ? AND cliente_id <> ? " +
+                     "AND id <> ? AND status = \'ativa\' AND NOT (data_fim < ? OR data_inicio > ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, equipamentoId);
+            ps.setInt(2, clienteId);
+            ps.setInt(3, idIgnorar);
+            ps.setDate(4, Date.valueOf(inicio));
+            ps.setDate(5, Date.valueOf(fim));
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    private void validarCliente(Connection conn, int clienteId) throws SQLException {
+        String sql = "SELECT id FROM cliente WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, clienteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new SQLException("Cliente nao encontrado.");
+                }
+            }
+        }
+    }
+
+    private void validarEquipamento(Connection conn, int equipamentoId) throws SQLException {
+        String sql = "SELECT id FROM equipamento WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, equipamentoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new SQLException("Equipamento nao encontrado.");
+                }
+            }
+        }
+    }
+
+    private int buscarEquipamentoId(Connection conn, int reservaId) throws SQLException {
+        String sql = "SELECT equipamento_id FROM reserva WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reservaId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("equipamento_id");
+                }
+            }
+        }
+        throw new SQLException("Reserva nao encontrada.");
+    }
+
+    private void atualizarStatusEquipamento(Connection conn, int equipamentoId, String status) throws SQLException {
+        String sql = "UPDATE equipamento SET status = ? WHERE id = ? AND status = \'disponivel\'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, equipamentoId);
+            ps.executeUpdate();
+        }
+    }
+
+    private void liberarEquipamentoSemReservaAtiva(Connection conn, int equipamentoId) throws SQLException {
+        String sqlReserva = "SELECT id FROM reserva WHERE equipamento_id = ? AND status = \'ativa\'";
+        try (PreparedStatement ps = conn.prepareStatement(sqlReserva)) {
+            ps.setInt(1, equipamentoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return;
+                }
+            }
+        }
+        String sqlStatus = "UPDATE equipamento SET status = \'disponivel\' WHERE id = ? AND status = \'reservado\'";
+        try (PreparedStatement ps = conn.prepareStatement(sqlStatus)) {
+            ps.setInt(1, equipamentoId);
             ps.executeUpdate();
         }
     }

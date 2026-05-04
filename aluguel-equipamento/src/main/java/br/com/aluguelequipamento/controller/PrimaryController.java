@@ -4,7 +4,6 @@ import br.com.App;
 import br.com.aluguelequipamento.model.dao.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -71,9 +70,6 @@ public class PrimaryController {
 
     // Navegação — processos
     @FXML private void abrirReservas() throws IOException {
-        App.setRoot("reserva");
-    }
-    @FXML private void abrirReservas(MouseEvent e) throws IOException {
         App.setRoot("reserva");
     }
 

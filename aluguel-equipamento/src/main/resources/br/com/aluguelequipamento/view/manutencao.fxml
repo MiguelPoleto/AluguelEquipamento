@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.aluguelequipamento.controller.ManutencaoController"
+            prefWidth="950" prefHeight="640"
+            stylesheets="@css/manutencao.css">
+
+    <!-- TOPO -->
+    <top>
+        <VBox>
+            <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Label text="MAN" styleClass="card-tag"/>
+                <VBox>
+                    <Label text="Manutenções" styleClass="header-title"/>
+                    <Label text="Processo de negócio de manutenção de equipamentos"
+                           styleClass="header-subtitle"/>
+                </VBox>
+                <HBox HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblContador" text="0/10 em andamento"
+                       styleClass="contador-label"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CENTRO -->
+    <center>
+        <HBox spacing="0">
+
+            <!-- TABELA -->
+            <VBox styleClass="table-container" prefWidth="560">
+                <padding>
+                    <Insets top="16" left="16" right="16" bottom="16"/>
+                </padding>
+
+                <!-- Filtros -->
+                <GridPane hgap="8" vgap="0" styleClass="search-bar">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="40"/>
+                        <ColumnConstraints percentWidth="15"/>
+                        <ColumnConstraints percentWidth="15"/>
+                    </columnConstraints>
+
+                    <ComboBox fx:id="cbFiltroStatus"
+                              promptText="Status"
+                              maxWidth="Infinity"
+                              styleClass="input"
+                              GridPane.columnIndex="0"/>
+
+                    <ComboBox fx:id="cbFiltroEquipamento"
+                              promptText="Equipamento"
+                              maxWidth="Infinity"
+                              styleClass="input"
+                              GridPane.columnIndex="1"/>
+
+                    <Button text="Filtrar"
+                            onAction="#filtrar"
+                            maxWidth="Infinity"
+                            styleClass="btn-primary"
+                            GridPane.columnIndex="2"/>
+
+                    <Button text="Todos"
+                            onAction="#listarTodos"
+                            maxWidth="Infinity"
+                            styleClass="btn-secondary"
+                            GridPane.columnIndex="3"/>
+                </GridPane>
+
+                <TableView fx:id="tableManutencoes"
+                           VBox.vgrow="ALWAYS"
+                           onMouseClicked="#selecionarManutencao"
+                           styleClass="table">
+                    <columns>
+                        <TableColumn fx:id="colId"          text="ID"          prefWidth="40"/>
+                        <TableColumn fx:id="colEquipamento" text="Equipamento" prefWidth="160"/>
+                        <TableColumn fx:id="colDataInicio"  text="Entrada"     prefWidth="85"/>
+                        <TableColumn fx:id="colDataPrevisao" text="Previsão"    prefWidth="85"/>
+                        <TableColumn fx:id="colDataFim"     text="Conclusão"   prefWidth="85"/>
+                        <TableColumn fx:id="colStatus"      text="Status"      prefWidth="110"/>
+                        <TableColumn fx:id="colDescricao"   text="Descrição"   prefWidth="150"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Nenhuma manutenção encontrada."
+                               styleClass="placeholder"/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+            <!-- FORMULÁRIO -->
+            <VBox prefWidth="390" spacing="10" styleClass="form-container">
+
+                <Label fx:id="lblTituloForm" text="Nova Manutenção"
+                       styleClass="form-title"/>
+
+                <Separator/>
+
+                <!-- RN: contador de andamento -->
+                <Label fx:id="lblLimiteAviso"
+                       text=""
+                       styleClass="error-label"
+                       wrapText="true"/>
+
+                <Label text="Equipamento *" styleClass="section-label"/>
+                <ComboBox fx:id="cbEquipamento"
+                          promptText="Selecione o equipamento"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Descrição do Problema *" styleClass="section-label"/>
+                <TextArea fx:id="txtDescricao"
+                          promptText="Descreva o problema do equipamento"
+                          prefRowCount="3"
+                          wrapText="true"
+                          styleClass="input"/>
+
+                <Label text="Data de Entrada *" styleClass="section-label"/>
+                <DatePicker fx:id="dpDataInicio"
+                            maxWidth="Infinity"
+                            styleClass="input"/>
+
+                <Label text="Data de Previsão *" styleClass="section-label"/>
+                <DatePicker fx:id="dpDataPrevisao"
+                            maxWidth="Infinity"
+                            styleClass="input"/>
+
+                <Label text="Status *" styleClass="section-label"/>
+                <ComboBox fx:id="cbStatus"
+                          maxWidth="Infinity"
+                          styleClass="input"/>
+
+                <Label text="Data de Conclusão *" styleClass="section-label"/>
+                <DatePicker fx:id="dpDataFim"
+                            maxWidth="Infinity"
+                            styleClass="input"/>
+                            
+
+                <Separator/>
+
+                <Label fx:id="lblErro" text=""
+                       styleClass="error-label"
+                       wrapText="true"/>
+
+                <HBox spacing="8">
+                    <Button text="Salvar"
+                            onAction="#salvar"
+                            prefWidth="110"
+                            styleClass="btn-primary"/>
+                    <Button fx:id="btnExcluir"
+                            text="Excluir"
+                            onAction="#excluir"
+                            prefWidth="110"
+                            disable="true"
+                            styleClass="btn-danger"/>
+                    <Button text="Limpar"
+                            onAction="#limpar"
+                            prefWidth="110"
+                            styleClass="btn-secondary"/>
+                </HBox>
+
+                <Button text="← Voltar ao Menu"
+                        onAction="#voltarMenu"
+                        styleClass="btn-back"/>
+            </VBox>
+        </HBox>
+    </center>
+
+    <!-- RODAPÉ -->
+    <bottom>
+        <HBox styleClass="footer" spacing="12" alignment="CENTER_LEFT">
+            <Label text="Sistema de Aluguel de Equipamentos v1.0"
+                   styleClass="footer-text"/>
+            <Label text="|" styleClass="footer-separator"/>
+            <Label text="Desenvolvido por: Alessandro Mion Batista  •  Miguel Santuchi Poleto"
+                   styleClass="footer-text"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
