@@ -230,6 +230,19 @@
 .btn-secondary:hover  { -fx-background-color: #d0dff0; }
 .btn-secondary:pressed{ -fx-background-color: #b8cce0; }
 
+/* BOTÃO VOLTAR */
+.btn-back {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2a5480;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.btn-back:hover {
+    -fx-text-fill: #1a3a5c;
+    -fx-underline: true;
+}
+
 /* ══════════════════════════════════════
    SCROLL BARS GLOBAIS
    ══════════════════════════════════════ */

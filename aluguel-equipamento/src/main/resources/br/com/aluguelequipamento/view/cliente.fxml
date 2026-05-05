@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="620" prefWidth="920" style="-fx-background-color: #f0f2f5;" stylesheets="@css/cliente.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="br.com.aluguelequipamento.controller.ClienteController">
+<BorderPane prefHeight="620" prefWidth="920" style="-fx-background-color: #f0f2f5;" stylesheets="@css/cliente.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.aluguelequipamento.controller.ClienteController">
 
     <!-- ══ TOPO ══ -->
     <top>
@@ -37,7 +37,7 @@
             <HBox alignment="CENTER_LEFT" spacing="10" styleClass="action-bar">
                 <Label styleClass="section-label-inline" text="CLIENTES CADASTRADOS" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnNovo" onAction="#handleNovo" styleClass="btn-primary" text="＋  Novo" />
+            <Button mnemonicParsing="false" onAction="#switchToPrimary" styleClass="btn-back" stylesheets="@css/cliente.css" text="← Voltar" />
                 <Button fx:id="btnSalvar" onAction="#handleSalvar" styleClass="btn-success" text="✔  Salvar" />
                 <Button fx:id="btnExcluir" onAction="#handleExcluir" styleClass="btn-danger" text="✖  Excluir" />
                 <Button fx:id="btnLimpar" onAction="#handleLimpar" styleClass="btn-secondary" text="↺  Limpar" />
@@ -60,6 +60,9 @@
                             <Label style="-fx-font-size: 11; -fx-text-fill: #b0bec5;" text="Clique em '＋ Novo' para começar." />
                         </VBox>
                     </placeholder>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
                 </TableView>
             </VBox>
 
@@ -76,10 +79,11 @@
                 <!-- Grid de campos -->
                 <GridPane hgap="16" style="-fx-padding: 18 20 14 20;" vgap="14">
                     <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" minWidth="100" prefWidth="110" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="160" />
-                        <ColumnConstraints halignment="RIGHT" minWidth="100" prefWidth="110" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="160" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="100.0" prefWidth="110.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="160.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="100.0" prefWidth="110.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="303.4000366210937" minWidth="160.0" prefWidth="257.8000610351562" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="164.20001220703125" minWidth="43.39996337890625" prefWidth="88.99993896484375" />
                     </columnConstraints>
 
                     <!-- Linha 1 -->
@@ -99,13 +103,13 @@
 
                     <!-- Linha 4 -->
                     <Label styleClass="field-label" text="Endereço" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                    <TextField fx:id="txtEndereco" maxWidth="Infinity" promptText="Rua, número — Bairro, Cidade/UF" styleClass="field-input" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtEndereco" maxWidth="Infinity" prefHeight="34.0" prefWidth="438.0" promptText="Rua, número — Bairro, Cidade/UF" styleClass="field-input" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
 
                     <!-- Linha 5 -->
                     <Label styleClass="field-label" text="Data Cadastro *" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                     <DatePicker fx:id="dpDataCadastro" maxWidth="190" styleClass="field-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-                    <Label styleClass="hint-label" text="* Campos obrigatórios" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                   <Button fx:id="btnNovo" onAction="#handleNovo" prefHeight="30.0" prefWidth="85.0" styleClass="btn-primary" text="＋  Novo" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+               <Label styleClass="hint-label" text="* Campos obrigatórios" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                <rowConstraints>
                   <RowConstraints />
                   <RowConstraints />

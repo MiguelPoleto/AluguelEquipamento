@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="660" prefWidth="920" style="-fx-background-color: #f0f2f5;" stylesheets="@css/devolucao.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.aluguelequipamento.controller.DevolucaoController">
+
+    <!-- ══ TOPO ══ -->
+    <top>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #2a5480; -fx-padding: 12 20;">
+                <Label style="-fx-font-size: 11; -fx-font-weight: bold;                               -fx-text-fill: #aacce8; -fx-padding: 4 10;                               -fx-background-color: #1a3a5c;                               -fx-background-radius: 4;" text="DEV" />
+                <VBox>
+                    <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: white;" text="Devolução de Equipamento" />
+                    <Label style="-fx-font-size: 11; -fx-text-fill: #aacce8;" text="Registre a devolução de equipamentos" />
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <!-- Banner de regra de negócio -->
+                <HBox alignment="CENTER_LEFT" spacing="6" styleClass="rn-banner">
+                    <Label styleClass="rn-tag" text="RN" />
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ══ CENTRO ══ -->
+    <center>
+        <VBox spacing="0" style="-fx-padding: 20 24 16 24;">
+
+            <!-- ── Barra de ações ── -->
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="action-bar">
+                <Label styleClass="section-label-inline" text="DEVOLUÇÕES REGISTRADAS" />
+                <Region HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#switchToPrimary" styleClass="btn-back" stylesheets="@css/cliente.css" text="← Voltar" />
+                <Button fx:id="btnSalvar" onAction="#handleSalvar" styleClass="btn-success" text="✔  Salvar" />
+                <Button fx:id="btnExcluir" onAction="#handleExcluir" styleClass="btn-danger" text="✖  Excluir" />
+                <Button fx:id="btnLimpar" onAction="#handleLimpar" styleClass="btn-secondary" text="↺  Limpar" />
+            </HBox>
+
+            <!-- ── Tabela ── -->
+            <VBox styleClass="card-table">
+                <TableView fx:id="tableView" maxHeight="210" prefHeight="210">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="46" style="-fx-alignment: CENTER;" text="ID" />
+                        <TableColumn fx:id="colRetirada" prefWidth="260" text="Retirada (Ref.)" />
+                        <TableColumn fx:id="colDataDevolucao" prefWidth="120" text="Data Devolução" />
+                        <TableColumn fx:id="colObservacao" prefWidth="180" text="Observação" />
+                        <TableColumn fx:id="colStatus" prefWidth="90" text="Status" />
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 28;">
+                            <Label style="-fx-font-size: 13; -fx-text-fill: #8a9bb0;" text="Nenhuma devolução registrada." />
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #b0bec5;" text="Clique em '＋ Nova Devolução' para começar." />
+                        </VBox>
+                    </placeholder>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+                </TableView>
+            </VBox>
+
+            <!-- ── Formulário ── -->
+            <VBox styleClass="card-form" VBox.vgrow="ALWAYS">
+
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="form-header">
+                    <Label fx:id="lblFormTitulo" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;" text="Nova Devolução" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblMensagem" styleClass="msg-label" text="" />
+                </HBox>
+
+                <!-- Painel de informações da retirada selecionada -->
+                <HBox fx:id="pnlInfoRetirada" alignment="CENTER_LEFT" spacing="20" styleClass="info-panel">
+                    <VBox spacing="2">
+                        <Label styleClass="info-key" text="CLIENTE" />
+                        <Label fx:id="lblInfoCliente" styleClass="info-value" text="—" />
+                    </VBox>
+                    <Label style="-fx-text-fill: #ccd8e8;" text="|" />
+                    <VBox spacing="2">
+                        <Label styleClass="info-key" text="EQUIPAMENTO" />
+                        <Label fx:id="lblInfoEquipamento" styleClass="info-value" text="—" />
+                    </VBox>
+                    <Label style="-fx-text-fill: #ccd8e8;" text="|" />
+                    <VBox spacing="2">
+                        <Label styleClass="info-key" text="RETIRADA EM" />
+                        <Label fx:id="lblInfoDataRetirada" styleClass="info-value" text="—" />
+                    </VBox>
+                    <Label style="-fx-text-fill: #ccd8e8;" text="|" />
+                    <VBox spacing="2">
+                        <Label styleClass="info-key" text="PREV. DEVOLUÇÃO" />
+                        <Label fx:id="lblInfoPrevDev" styleClass="info-value" text="—" />
+                    </VBox>
+                    <Label style="-fx-text-fill: #ccd8e8;" text="|" />
+                    <VBox spacing="2">
+                        <Label styleClass="info-key" text="VALOR DO ALUGUEL" />
+                        <Label fx:id="lblInfoValorAluguel" styleClass="info-value-dest" text="—" />
+                    </VBox>
+                </HBox>
+
+                <GridPane hgap="16" style="-fx-padding: 16 20 14 20;" vgap="13">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="118.0" prefWidth="118.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="118.0" prefWidth="118.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="118.0" prefWidth="118.0" />
+                  <ColumnConstraints halignment="RIGHT" minWidth="118.0" prefWidth="118.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                    </columnConstraints>
+
+                    <!-- Linha 1 -->
+                    <Label styleClass="field-label" text="Retirada Ativa *" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <ComboBox fx:id="cmbRetirada" maxWidth="Infinity" promptText="Selecione a retirada ativa" styleClass="field-combo" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="0" />
+
+                    <!-- Linha 2 -->
+                    <Label styleClass="field-label" text="Data Devolução *" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <DatePicker fx:id="dpDataDevolucao" maxWidth="Infinity" styleClass="field-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <!-- Linha 3 -->
+                    <Label styleClass="field-label" text="Observação" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtObservacao" maxWidth="Infinity" prefHeight="34.0" prefWidth="469.0" promptText="Estado do equipamento, avarias, etc." styleClass="field-input" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+
+                    <!-- Linha 4 hints -->
+                    <Label styleClass="hint-label" text="* Campos obrigatórios" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                   <Button fx:id="btnNovo" onAction="#handleNovo" styleClass="btn-primary" text="＋  Nova Devolução" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+
+            </VBox>
+
+        </VBox>
+    </center>
+
+    <!-- ══ RODAPÉ ══ -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #1a3a5c; -fx-padding: 7 16;">
+            <Label style="-fx-text-fill: #aacce8; -fx-font-size: 11;" text="Devolução de Equipamento" />
+            <Label style="-fx-text-fill: #3a5a7c;" text="|" />
+            <Label fx:id="lblStatus" style="-fx-text-fill: #aacce8; -fx-font-size: 11;" text="Pronto." />
+        </HBox>
+    </bottom>
+
+</BorderPane>
