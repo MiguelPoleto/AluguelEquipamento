@@ -54,28 +54,26 @@ public class DevolucaoDAO {
     }
 
     public void inserir(Devolucao d) throws SQLException {
-        String sql = "INSERT INTO devolucao (retirada_id, data_devolucao, valor_multa, observacao, status) " +
-                     "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO devolucao (retirada_id, data_devolucao, observacao, status) " +
+                     "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
             ps.setInt(1, d.getRetiradaId());
             ps.setDate(2, Date.valueOf(d.getDataDevolucao()));
-            ps.setBigDecimal(3, d.getValorMulta());
-            ps.setString(4, d.getObservacao());
-            ps.setString(5, d.getStatus());
+            ps.setString(3, d.getObservacao());
+            ps.setString(4, d.getStatus());
             ps.executeUpdate();
         }
     }
 
     public void alterar(Devolucao d) throws SQLException {
         String sql = "UPDATE devolucao SET retirada_id=?, data_devolucao=?, " +
-                     "valor_multa=?, observacao=?, status=? WHERE id=?";
+                     "observacao=?, status=? WHERE id=?";
         try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
             ps.setInt(1, d.getRetiradaId());
             ps.setDate(2, Date.valueOf(d.getDataDevolucao()));
-            ps.setBigDecimal(3, d.getValorMulta());
-            ps.setString(4, d.getObservacao());
-            ps.setString(5, d.getStatus());
-            ps.setInt(6, d.getId());
+            ps.setString(3, d.getObservacao());
+            ps.setString(4, d.getStatus());
+            ps.setInt(5, d.getId());
             ps.executeUpdate();
         }
     }
@@ -95,7 +93,6 @@ public class DevolucaoDAO {
         d.setDescricaoRetirada(rs.getString("descricao_retirada"));
         Date dd = rs.getDate("data_devolucao");
         if (dd != null) d.setDataDevolucao(dd.toLocalDate());
-        d.setValorMulta(rs.getBigDecimal("valor_multa"));
         d.setObservacao(rs.getString("observacao"));
         d.setStatus(rs.getString("status"));
         return d;

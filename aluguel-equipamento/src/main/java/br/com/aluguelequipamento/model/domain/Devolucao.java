@@ -1,6 +1,5 @@
 package br.com.aluguelequipamento.model.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /*
@@ -11,7 +10,6 @@ public class Devolucao {
     private int retiradaId;
     private String descricaoRetirada;
     private LocalDate dataDevolucao;
-    private BigDecimal valorMulta;
     private String observacao;
     private String status;
 
@@ -47,14 +45,6 @@ public class Devolucao {
 
     public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
-    }
-
-    public BigDecimal getValorMulta() {
-        return valorMulta;
-    }
-
-    public void setValorMulta(BigDecimal valorMulta) {
-        this.valorMulta = valorMulta;
     }
 
     public String getObservacao() {

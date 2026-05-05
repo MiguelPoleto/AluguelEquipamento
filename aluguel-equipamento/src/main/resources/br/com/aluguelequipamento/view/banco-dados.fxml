@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.aluguelequipamento.controller.BancoDadosController"
+            prefWidth="920" prefHeight="620"
+            stylesheets="@css/banco-dados.css">
+
+    <top>
+        <VBox>
+            <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Label text="BD" styleClass="card-tag"/>
+                <VBox>
+                    <Label text="Popular Banco" styleClass="header-title"/>
+                    <Label text="Limpeza e criação de dados fictícios para testes" styleClass="header-subtitle"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="18" styleClass="content">
+            <GridPane hgap="12" vgap="12" styleClass="panel">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                </columnConstraints>
+
+                <Label text="Tabela" styleClass="section-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label text="Quantidade" styleClass="section-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <ComboBox fx:id="cbTabela"
+                          maxWidth="Infinity"
+                          styleClass="input"
+                          GridPane.columnIndex="0"
+                          GridPane.rowIndex="1"/>
+
+                <ComboBox fx:id="cbQuantidade"
+                          maxWidth="Infinity"
+                          styleClass="input"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="1"/>
+
+                <Button text="Popular"
+                        onAction="#popularDados"
+                        maxWidth="Infinity"
+                        styleClass="btn-primary"
+                        GridPane.columnIndex="2"
+                        GridPane.rowIndex="1"/>
+
+                <Button text="Apagar"
+                        onAction="#apagarDados"
+                        maxWidth="Infinity"
+                        styleClass="btn-danger"
+                        GridPane.columnIndex="3"
+                        GridPane.rowIndex="1"/>
+            </GridPane>
+
+            <VBox spacing="10" styleClass="panel">
+                <Label text="Resultado" styleClass="form-title"/>
+                <Label fx:id="lblMensagem" text="" wrapText="true" styleClass="message"/>
+                <TextArea fx:id="txtResumo"
+                          editable="false"
+                          wrapText="true"
+                          prefRowCount="10"
+                          styleClass="input"/>
+            </VBox>
+
+            <HBox alignment="CENTER_LEFT">
+                <Button onAction="#voltarMenu" styleClass="btn-back">
+                    <graphic>
+                        <Label text="←"/>
+                    </graphic>
+                    <text> Voltar</text>
+                </Button>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="footer" spacing="12" alignment="CENTER_LEFT">
+            <Label text="Sistema de Aluguel de Equipamentos v1.0" styleClass="footer-text"/>
+            <Label text="|" styleClass="footer-separator"/>
+            <Label text="Desenvolvido por: Alessandro Mion Batista  •  Miguel Santuchi Poleto"
+                   styleClass="footer-text"/>
+        </HBox>
+    </bottom>
+</BorderPane>

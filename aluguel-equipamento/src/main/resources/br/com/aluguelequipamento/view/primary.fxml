@@ -84,6 +84,15 @@
                     styleClass="sidebar-btn" onAction="#abrirRelatorioReservas"/>
                      <Button text="  Manutenção" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirRelatorioManutencao"/>
+                     <Region VBox.vgrow="ALWAYS"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="BANCO" styleClass="section-label"/>
+                     <Button text="  Popular Banco" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirBancoDados"/>
               </VBox>
        </left>
        <!-- CENTRO -->
