@@ -97,62 +97,114 @@
        </left>
        <!-- CENTRO -->
        <center>
-              <VBox spacing="20" style="-fx-padding: 30;">
-                     <Label text="Visão Geral"
-                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                     <!-- Linha 1 -->
-                     <HBox spacing="16">
-                            <VBox styleClass="card" prefWidth="185" spacing="8"
-                      onMouseClicked="#abrirEquipamentos">
-                                   <Label text="EQP" styleClass="card-tag"
-                           style="-fx-background-color: #2a5480;"/>
-                                   <Label text="Equipamentos" styleClass="card-title"/>
-                                   <Label fx:id="lblEquipamentos" text="Carregando..."
-                           styleClass="card-sub"/>
+              <VBox spacing="18" alignment="TOP_CENTER" styleClass="dashboard">
+                     <VBox alignment="CENTER" spacing="4">
+                            <Label text="Painel Inicial" styleClass="dashboard-title"/>
+                            <Label text="Acesse as áreas do sistema por categoria" styleClass="dashboard-subtitle"/>
+                     </VBox>
+
+                     <TilePane hgap="18" vgap="18" prefColumns="2" tileAlignment="TOP_LEFT"
+                               alignment="TOP_CENTER" maxWidth="980">
+
+                            <VBox spacing="12" styleClass="group-panel">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="CAD" styleClass="card-tag tag-cadastro"/>
+                                          <Label text="Cadastros" styleClass="group-title"/>
+                                   </HBox>
+                                   <HBox spacing="12" alignment="CENTER" styleClass="cards-duo">
+                                          <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS"
+                                                onMouseClicked="#abrirEquipamentos">
+                                                 <Label text="EQP" styleClass="card-tag tag-equipamento"/>
+                                                 <Label text="Equipamentos" styleClass="card-title"/>
+                                                 <Label fx:id="lblEquipamentos" text="Carregando..."
+                                                        styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS"
+                                                onMouseClicked="#abrirClientes">
+                                                 <Label text="CLI" styleClass="card-tag tag-cliente"/>
+                                                 <Label text="Clientes" styleClass="card-title"/>
+                                                 <Label fx:id="lblClientes" text="Carregando..."
+                                                        styleClass="card-sub"/>
+                                          </VBox>
+                                   </HBox>
                             </VBox>
-                            <VBox styleClass="card" prefWidth="185" spacing="8"
-                      onMouseClicked="#abrirClientes">
-                                   <Label text="CLI" styleClass="card-tag"
-                           style="-fx-background-color: #1e6b3a;"/>
-                                   <Label text="Clientes" styleClass="card-title"/>
-                                   <Label fx:id="lblClientes" text="Carregando..."
-                           styleClass="card-sub"/>
+
+                            <VBox spacing="12" styleClass="group-panel">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="PRO" styleClass="card-tag tag-processo"/>
+                                          <Label text="Processos" styleClass="group-title"/>
+                                   </HBox>
+                                   <GridPane hgap="12" vgap="12" styleClass="cards-grid">
+                                          <columnConstraints>
+                                                 <ColumnConstraints percentWidth="50"/>
+                                                 <ColumnConstraints percentWidth="50"/>
+                                          </columnConstraints>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirReservas"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                 <Label text="RES" styleClass="card-tag tag-reserva"/>
+                                                 <Label text="Reservas Ativas" styleClass="card-title"/>
+                                                 <Label fx:id="lblReservas" text="Carregando..." styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirRetiradas"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                 <Label text="RET" styleClass="card-tag tag-retirada"/>
+                                                 <Label text="Retiradas" styleClass="card-title"/>
+                                                 <Label fx:id="lblRetiradas" text="Carregando..." styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirManutencoes"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                 <Label text="MAN" styleClass="card-tag tag-manutencao"/>
+                                                 <Label text="Manutenções" styleClass="card-title"/>
+                                                 <Label fx:id="lblManutencoes" text="Carregando..." styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirDevolucoes"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                 <Label text="DEV" styleClass="card-tag tag-devolucao"/>
+                                                 <Label text="Devoluções" styleClass="card-title"/>
+                                                 <Label text="Registro de retornos" styleClass="card-sub"/>
+                                          </VBox>
+                                   </GridPane>
                             </VBox>
-                            <VBox styleClass="card" prefWidth="185" spacing="8"
-                      onMouseClicked="#abrirReservas">
-                                   <Label text="RES" styleClass="card-tag"
-                           style="-fx-background-color: #7a4200;"/>
-                                   <Label text="Reservas Ativas" styleClass="card-title"/>
-                                   <Label fx:id="lblReservas" text="Carregando..."
-                           styleClass="card-sub"/>
+
+                            <VBox spacing="12" styleClass="group-panel">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="REL" styleClass="card-tag tag-relatorio"/>
+                                          <Label text="Relatórios" styleClass="group-title"/>
+                                   </HBox>
+                                   <HBox spacing="12" alignment="CENTER" styleClass="cards-trio">
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirRelatorioAluguel"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="ALU" styleClass="card-tag tag-retirada"/>
+                                                 <Label text="Aluguel" styleClass="card-title"/>
+                                                 <Label text="Por período" styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirRelatorioReservas"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="RES" styleClass="card-tag tag-reserva"/>
+                                                 <Label text="Reservas" styleClass="card-title"/>
+                                                 <Label text="Filtros gerais" styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirRelatorioManutencao"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="MAN" styleClass="card-tag tag-manutencao"/>
+                                                 <Label text="Manutenção" styleClass="card-title"/>
+                                                 <Label text="Status e datas" styleClass="card-sub"/>
+                                          </VBox>
+                                   </HBox>
                             </VBox>
-                     </HBox>
-                     <!-- Linha 2 -->
-                     <HBox spacing="16">
-                            <VBox styleClass="card" prefWidth="185" spacing="8"
-                      onMouseClicked="#abrirRetiradas">
-                                   <Label text="RET" styleClass="card-tag"
-                           style="-fx-background-color: #1a4f7a;"/>
-                                   <Label text="Retiradas" styleClass="card-title"/>
-                                   <Label fx:id="lblRetiradas" text="Carregando..."
-                           styleClass="card-sub"/>
+
+                            <VBox spacing="10" styleClass="group-panel banco-panel" alignment="TOP_CENTER">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="BD" styleClass="card-tag tag-banco"/>
+                                          <Label text="Banco de Dados" styleClass="group-title"/>
+                                   </HBox>
+                                   <VBox styleClass="card" spacing="8" onMouseClicked="#abrirBancoDados">
+                                          <Label text="POP" styleClass="card-tag tag-banco"/>
+                                          <Label text="Popular Banco" styleClass="card-title"/>
+                                          <Label text="Limpar ou gerar dados fictícios" styleClass="card-sub"/>
+                                   </VBox>
                             </VBox>
-                            <VBox styleClass="card" prefWidth="185" spacing="8"
-                      onMouseClicked="#abrirManutencoes">
-                                   <Label text="MAN" styleClass="card-tag"
-                           style="-fx-background-color: #8b1a1a;"/>
-                                   <Label text="Manutenções" styleClass="card-title"/>
-                                   <Label fx:id="lblManutencoes" text="Carregando..."
-                           styleClass="card-sub"/>
-                            </VBox>
-                            <VBox styleClass="card" prefWidth="185" spacing="8">
-                                   <Label text="REL" styleClass="card-tag"
-                           style="-fx-background-color: #4a2a7a;"/>
-                                   <Label text="Relatórios" styleClass="card-title"/>
-                                   <Label text="Aluguel  ·  Reservas  ·  Manutenção"
-                           styleClass="card-sub"/>
-                            </VBox>
-                     </HBox>
+                     </TilePane>
               </VBox>
        </center>
        <!-- RODAPÉ -->

@@ -87,7 +87,7 @@ public class BancoDadosDAO {
 
     private void inserirClientes(Connection conn, int quantidade) throws SQLException {
         String[] nomes = {"Miguel", "Alessandro", "Laura", "Rafael", "Bianca", "Gustavo", "Camila", "Diego"};
-        String[] sobrenomes = {"Silva", "Mion", "Poleto", "Costa", "Souza", "Oliveira", "Santos", "Almeida"};
+        String[] sobrenomes = {"Silva", "Pereira", "Teste", "Costa", "Souza", "Oliveira", "Santos", "Almeida"};
         String sql = "INSERT INTO cliente (nome, cpf, telefone, email, endereco, data_cadastro) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             for (int i = 0; i < quantidade; i++) {

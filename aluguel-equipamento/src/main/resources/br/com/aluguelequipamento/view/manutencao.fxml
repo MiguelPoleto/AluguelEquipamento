@@ -12,6 +12,7 @@
     <top>
         <VBox>
             <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Button text="←" onAction="#voltarMenu" styleClass="btn-top-back"/>
                 <Label text="MAN" styleClass="card-tag"/>
                 <VBox>
                     <Label text="Manutenções" styleClass="header-title"/>
@@ -27,10 +28,10 @@
 
     <!-- CENTRO -->
     <center>
-        <HBox spacing="0">
+        <HBox spacing="14" styleClass="content">
 
             <!-- TABELA -->
-            <VBox styleClass="table-container" prefWidth="560">
+            <VBox styleClass="table-container" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                 <padding>
                     <Insets top="16" left="16" right="16" bottom="16"/>
                 </padding>
@@ -90,7 +91,7 @@
             </VBox>
 
             <!-- FORMULÁRIO -->
-            <VBox prefWidth="390" spacing="10" styleClass="form-container">
+            <VBox prefWidth="460" maxWidth="520" spacing="10" styleClass="form-container">
 
                 <Label fx:id="lblTituloForm" text="Nova Manutenção"
                        styleClass="form-title"/>

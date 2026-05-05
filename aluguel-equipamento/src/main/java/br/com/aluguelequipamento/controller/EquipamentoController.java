@@ -36,6 +36,8 @@ public class EquipamentoController {
     private TableColumn<Equipamento, BigDecimal> colValor;
     @FXML
     private TableColumn<Equipamento, String> colStatus;
+    @FXML
+    private Label lblContador;
 
     // ── Formulário ──────────────────────────────────────────
     @FXML
@@ -182,8 +184,19 @@ public class EquipamentoController {
         try {
             tableEquipamentos.setItems(
                     FXCollections.observableArrayList(supplier.get()));
+            atualizarContador();
         } catch (SQLException e) {
             mostrarErro("Erro ao carregar dados: " + e.getMessage());
+        }
+    }
+
+    private void atualizarContador() {
+        try {
+            int total = dao.listar().size();
+            int disponiveis = dao.listarDisponiveis().size();
+            lblContador.setText(total + " cadastrados · " + disponiveis + " disponíveis");
+        } catch (SQLException e) {
+            lblContador.setText("Erro ao carregar");
         }
     }
 

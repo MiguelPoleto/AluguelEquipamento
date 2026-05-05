@@ -20,6 +20,21 @@
     -fx-text-fill: #aacce8;
 }
 
+.btn-top-back {
+    -fx-background-color: #1a3a5c;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-min-width: 34;
+    -fx-min-height: 30;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-top-back:hover {
+    -fx-background-color: #14304d;
+}
+
 /* Cards / tags */
 .card-tag {
     -fx-background-color: #7a4200;
@@ -29,9 +44,26 @@
     -fx-background-radius: 4;
 }
 
+.contador-label {
+    -fx-font-size: 12;
+    -fx-text-fill: #7a4200;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-color: #fff2dd;
+    -fx-background-radius: 5;
+}
+
+/* Centro */
+.content {
+    -fx-padding: 18;
+}
+
 /* Tabela */
 .table-container {
     -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
 }
 
 .search-bar {
@@ -51,6 +83,9 @@
 /* Formulário */
 .form-container {
     -fx-background-color: #fafbfc;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
     -fx-padding: 20;
 }
 

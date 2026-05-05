@@ -11,18 +11,21 @@
     <top>
         <VBox>
             <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Button text="←" onAction="#voltarMenu" styleClass="btn-top-back"/>
                 <Label text="RES" styleClass="card-tag"/>
                 <VBox>
                     <Label text="Reservas" styleClass="header-title"/>
                     <Label text="Processo de negócio de reserva de equipamentos" styleClass="header-subtitle"/>
                 </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblContador" text="0 reservas" styleClass="contador-label"/>
             </HBox>
         </VBox>
     </top>
 
     <center>
-        <HBox spacing="0">
-            <VBox styleClass="table-container" prefWidth="570">
+        <HBox spacing="14" styleClass="content">
+            <VBox styleClass="table-container" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                 <padding>
                     <Insets top="16" left="16" right="16" bottom="16"/>
                 </padding>
@@ -86,7 +89,7 @@
                 </TableView>
             </VBox>
 
-            <VBox prefWidth="350" spacing="12" styleClass="form-container">
+            <VBox prefWidth="440" maxWidth="500" spacing="12" styleClass="form-container">
                 <Label fx:id="lblTituloForm"
                        text="Nova Reserva"
                        styleClass="form-title"/>

@@ -20,6 +20,21 @@
     -fx-text-fill: #aacce8;
 }
 
+.btn-top-back {
+    -fx-background-color: #1a3a5c;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-min-width: 34;
+    -fx-min-height: 30;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-top-back:hover {
+    -fx-background-color: #14304d;
+}
+
 .card-tag {
     -fx-background-color: #4a2a7a;
     -fx-font-weight: bold;

@@ -11,6 +11,7 @@
     <top>
         <VBox>
             <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+                <Button text="←" onAction="#voltarMenu" styleClass="btn-top-back"/>
                 <Label text="BD" styleClass="card-tag"/>
                 <VBox>
                     <Label text="Popular Banco" styleClass="header-title"/>
