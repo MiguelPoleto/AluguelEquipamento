@@ -244,28 +244,6 @@ public class ManutencaoController {
             return;
         }
 
-        // RN: máximo 10 em andamento (somente na inserção ou ao mudar para
-        // em_andamento)
-        try {
-            boolean inserindo = manutencaoSelecionada == null;
-            boolean mudandoParaAndamento = !inserindo
-                    && "em_andamento".equals(cbStatus.getValue())
-                    && !"em_andamento".equals(manutencaoSelecionada.getStatus());
-
-            if ((inserindo || mudandoParaAndamento)
-                    && "em_andamento".equals(cbStatus.getValue())) {
-                int emAndamento = manutencaoDAO.contarEmAndamento();
-                if (emAndamento >= 10) {
-                    mostrarErro("Limite de 10 manutenções em andamento atingido. "
-                            + "Conclua uma manutenção antes de abrir nova.");
-                    return;
-                }
-            }
-        } catch (SQLException e) {
-            mostrarErro("Erro ao verificar limite: " + e.getMessage());
-            return;
-        }
-
         Manutencao m = new Manutencao();
         m.setEquipamentoId(cbEquipamento.getValue().getId());
         m.setDescricao(txtDescricao.getText().trim());
@@ -276,10 +254,8 @@ public class ManutencaoController {
 
         try {
             if (manutencaoSelecionada == null) {
-                // Inserção: atualiza status do equipamento para em_manutencao
+                // Inserção com RN e status do equipamento controlados no DAO.
                 manutencaoDAO.inserir(m);
-                equipamentoDAO.atualizarStatus(
-                        m.getEquipamentoId(), "em_manutencao");
                 mostrarSucesso("Manutenção registrada com sucesso!");
             } else {
                 m.setId(manutencaoSelecionada.getId());
