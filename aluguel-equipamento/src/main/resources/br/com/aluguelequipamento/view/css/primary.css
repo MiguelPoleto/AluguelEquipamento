@@ -34,17 +34,71 @@
 }
 
 /* ── Cards ── */
-.card {
+.dashboard {
+    -fx-padding: 22 34;
+}
+.dashboard-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a3a5c;
+}
+.dashboard-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7c93;
+}
+.group-panel {
     -fx-background-color: white;
-    -fx-background-radius: 10;
+    -fx-background-radius: 8;
     -fx-border-color: #dde1e7;
-    -fx-border-radius: 10;
-    -fx-padding: 18;
+    -fx-border-radius: 8;
+    -fx-padding: 16;
+    -fx-pref-width: 470;
+    -fx-min-height: 176;
+}
+.cards-duo .card {
+    -fx-pref-width: 205;
+    -fx-max-width: Infinity;
+}
+.cards-trio .card {
+    -fx-pref-width: 134;
+    -fx-max-width: Infinity;
+}
+.cards-grid .card {
+    -fx-pref-width: 210;
+    -fx-max-width: Infinity;
+}
+.banco-panel {
+    -fx-pref-width: 360;
+    -fx-min-height: 146;
+    -fx-padding: 12;
+    -fx-opacity: 0.88;
+}
+.banco-panel .card {
+    -fx-pref-width: 310;
+    -fx-min-height: 72;
+    -fx-padding: 12;
+    -fx-background-color: #fbfcfd;
+}
+.group-header {
+    -fx-padding: 0 0 2 0;
+}
+.group-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a3a5c;
+}
+.card {
+    -fx-background-color: #f9fbfd;
+    -fx-background-radius: 8;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 8;
+    -fx-padding: 14;
     -fx-cursor: hand;
+    -fx-min-height: 94;
 }
 .card:hover {
     -fx-border-color: #2a5480;
-    -fx-background-color: #f7faff;
+    -fx-background-color: #f1f6fb;
 }
 .card-tag {
     -fx-font-size: 12px;
@@ -52,6 +106,30 @@
     -fx-text-fill: white;
     -fx-background-radius: 5;
     -fx-padding: 3 10;
+}
+.tag-cadastro,
+.tag-equipamento {
+    -fx-background-color: #2a5480;
+}
+.tag-cliente {
+    -fx-background-color: #1e6b3a;
+}
+.tag-processo,
+.tag-retirada,
+.tag-devolucao {
+    -fx-background-color: #1a4f7a;
+}
+.tag-reserva {
+    -fx-background-color: #7a4200;
+}
+.tag-manutencao {
+    -fx-background-color: #8b1a1a;
+}
+.tag-relatorio {
+    -fx-background-color: #4a2a7a;
+}
+.tag-banco {
+    -fx-background-color: #3f5f4a;
 }
 .card-title {
     -fx-font-size: 14px;

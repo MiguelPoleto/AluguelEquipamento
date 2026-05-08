@@ -36,6 +36,7 @@ public class ReservaController {
     @FXML private TableColumn<Reserva, LocalDate> colDataInicio;
     @FXML private TableColumn<Reserva, LocalDate> colDataFim;
     @FXML private TableColumn<Reserva, String> colStatus;
+    @FXML private Label lblContador;
 
     // ── Formulário ───────────────────────────────────────────
     @FXML private Label lblTituloForm;
@@ -272,8 +273,19 @@ public class ReservaController {
     private void carregarTabela() {
         try {
             tableReservas.setItems(FXCollections.observableArrayList(reservaDAO.listar()));
+            atualizarContador();
         } catch (SQLException e) {
             mostrarErro("Erro ao carregar reservas: " + e.getMessage());
+        }
+    }
+
+    private void atualizarContador() {
+        try {
+            int total = reservaDAO.listar().size();
+            int ativas = reservaDAO.listarAtivas().size();
+            lblContador.setText(total + " reservas · " + ativas + " ativas");
+        } catch (SQLException e) {
+            lblContador.setText("Erro ao carregar");
         }
     }
 

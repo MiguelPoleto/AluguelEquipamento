@@ -96,6 +96,11 @@ public class PrimaryController {
         App.setRoot("relatorio-manutencao");
     }
 
+    // Banco de dados
+    @FXML private void abrirBancoDados() throws IOException {
+        App.setRoot("banco-dados");
+    }
+
     @FXML private void sair() {
         System.exit(0);
     }

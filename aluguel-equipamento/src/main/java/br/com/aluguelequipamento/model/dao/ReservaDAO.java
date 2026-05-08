@@ -78,16 +78,23 @@ public class ReservaDAO {
         boolean autoCommitOriginal = conn.getAutoCommit();
         try {
             conn.setAutoCommit(false);
+
+            // 1) Seleciona o cliente informado.
             validarCliente(conn, r.getClienteId());
+
+            // 2) Seleciona o equipamento informado.
             validarEquipamento(conn, r.getEquipamentoId());
+
+            // 3) Verifica conflito de reserva para outro cliente no periodo.
             if (existeConflito(conn, r.getEquipamentoId(), r.getDataInicio(), r.getDataFim(), r.getClienteId(), 0)) {
                 throw new SQLException("Equipamento ja possui reserva ativa de outro cliente neste periodo.");
             }
 
+            // 4) Insere a reserva.
             inserir(conn, r);
-            if ("ativa".equals(r.getStatus())) {
-                atualizarStatusEquipamento(conn, r.getEquipamentoId(), "reservado");
-            }
+
+            // 5) Altera o status do equipamento se a reserva estiver ativa.
+            atualizarStatusEquipamento(conn, r.getEquipamentoId(), r.getStatus());
             conn.commit();
         } catch (SQLException ex) {
             conn.rollback();
@@ -127,7 +134,7 @@ public class ReservaDAO {
             alterar(conn, r);
 
             if ("ativa".equals(r.getStatus())) {
-                atualizarStatusEquipamento(conn, r.getEquipamentoId(), "reservado");
+                atualizarStatusEquipamento(conn, r.getEquipamentoId(), r.getStatus());
             }
             if (equipamentoAnteriorId != r.getEquipamentoId()) {
                 liberarEquipamentoSemReservaAtiva(conn, equipamentoAnteriorId);
@@ -242,10 +249,12 @@ public class ReservaDAO {
         throw new SQLException("Reserva nao encontrada.");
     }
 
-    private void atualizarStatusEquipamento(Connection conn, int equipamentoId, String status) throws SQLException {
-        String sql = "UPDATE equipamento SET status = ? WHERE id = ? AND status = \'disponivel\'";
+    private void atualizarStatusEquipamento(Connection conn, int equipamentoId, String statusReserva) throws SQLException {
+        String sql = "UPDATE equipamento SET status = " +
+                     "CASE WHEN ? = \'ativa\' AND status = \'disponivel\' THEN \'reservado\' ELSE status END " +
+                     "WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, status);
+            ps.setString(1, statusReserva);
             ps.setInt(2, equipamentoId);
             ps.executeUpdate();
         }
