@@ -194,6 +194,17 @@
 .btn-primary:hover   { -fx-background-color: #1a3a5c; }
 .btn-primary:pressed { -fx-background-color: #12283f; }
 
+.btn-top-back {
+    -fx-background-color: #1a3a5c;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-min-width: 34;
+    -fx-min-height: 30;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
 .btn-success  { -fx-background-color: #1e6b3a; -fx-text-fill: white; }
 .btn-success:hover   { -fx-background-color: #165229; }
 .btn-success:pressed { -fx-background-color: #0f3a1c; }

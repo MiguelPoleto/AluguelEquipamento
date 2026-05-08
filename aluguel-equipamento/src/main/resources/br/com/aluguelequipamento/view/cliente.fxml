@@ -20,6 +20,7 @@
     <top>
         <VBox>
             <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #2a5480; -fx-padding: 12 20;">
+                <Button text="←" onAction="#switchToPrimary" styleClass="btn-top-back"/>
                 <Label style="-fx-font-size: 11; -fx-font-weight: bold;                               -fx-text-fill: #aacce8; -fx-padding: 4 10;                               -fx-background-color: #1a3a5c;                               -fx-background-radius: 4;" text="CLI" />
                 <VBox>
                     <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: white;" text="Cadastro de Clientes" />
@@ -37,7 +38,6 @@
             <HBox alignment="CENTER_LEFT" spacing="10" styleClass="action-bar">
                 <Label styleClass="section-label-inline" text="CLIENTES CADASTRADOS" />
                 <Region HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#switchToPrimary" styleClass="btn-back" stylesheets="@css/cliente.css" text="← Voltar" />
                 <Button fx:id="btnSalvar" onAction="#handleSalvar" styleClass="btn-success" text="✔  Salvar" />
                 <Button fx:id="btnExcluir" onAction="#handleExcluir" styleClass="btn-danger" text="✖  Excluir" />
                 <Button fx:id="btnLimpar" onAction="#handleLimpar" styleClass="btn-secondary" text="↺  Limpar" />
