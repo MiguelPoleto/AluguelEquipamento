@@ -23,6 +23,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/*
+    Alessandro
+*/
+
 public class RetiradaController {
 
     @FXML private TableView<Retirada> tableView;
@@ -249,7 +253,7 @@ public class RetiradaController {
         try {
             new RetiradaDAO().inserir(retirada);
             alerta(Alert.AlertType.INFORMATION, "Sucesso", "Retirada registrada com sucesso!");
-            limparCampos();         // ← limpa após inserir
+            limparCampos();
             carregarTableView();
             carregarComboBoxEquipamentos();
         } catch (Exception e) {
