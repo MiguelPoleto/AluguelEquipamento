@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+    http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="relatorio-manutencao"
+    pageWidth="842"
+    pageHeight="595"
+    orientation="Landscape"
+    columnWidth="802"
+    leftMargin="20"
+    rightMargin="20"
+    topMargin="20"
+    bottomMargin="20">
+
+    <!-- PARÂMETROS -->
+    <parameter name="P_STATUS" class="java.lang.String"/>
+    <parameter name="P_EQUIPAMENTO_ID" class="java.lang.Integer"/>
+    <parameter name="P_DATA_DE" class="java.sql.Date"/>
+    <parameter name="P_DATA_ATE" class="java.sql.Date"/>
+
+    <!-- QUERY -->
+    <queryString>
+        <![CDATA[
+        SELECT
+            m.id,
+            e.nome AS equipamento,
+            m.descricao,
+            m.data_inicio,
+            m.data_previsao,
+            m.data_fim,
+            m.status
+        FROM manutencao m
+        JOIN equipamento e ON e.id = m.equipamento_id
+        WHERE m.status LIKE $P{P_STATUS}
+          AND ($P{P_EQUIPAMENTO_ID} = 0 OR e.id = $P{P_EQUIPAMENTO_ID})
+          AND ($P{P_DATA_DE} IS NULL OR m.data_inicio >= $P{P_DATA_DE})
+          AND ($P{P_DATA_ATE} IS NULL OR m.data_inicio <= $P{P_DATA_ATE})
+        ORDER BY m.data_inicio DESC
+        ]]>
+    </queryString>
+
+    <!-- CAMPOS -->
+    <field name="id" class="java.lang.Integer"/>
+    <field name="equipamento" class="java.lang.String"/>
+    <field name="descricao" class="java.lang.String"/>
+    <field name="data_inicio" class="java.sql.Date"/>
+    <field name="data_previsao" class="java.sql.Date"/>
+    <field name="data_fim" class="java.sql.Date"/>
+    <field name="status" class="java.lang.String"/>
+
+    <!-- TÍTULO -->
+    <title>
+        <band height="40">
+            <staticText>
+                <reportElement x="0" y="5" width="500" height="30"/>
+                <textElement>
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[RELATÓRIO DE MANUTENÇÕES]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <!-- CABEÇALHO -->
+    <columnHeader>
+        <band height="25">
+
+            <staticText>
+                <reportElement x="0" y="0" width="40" height="20"/>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="45" y="0" width="180" height="20"/>
+                <text><![CDATA[Equipamento]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="230" y="0" width="180" height="20"/>
+                <text><![CDATA[Descrição]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="415" y="0" width="80" height="20"/>
+                <text><![CDATA[Entrada]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="500" y="0" width="80" height="20"/>
+                <text><![CDATA[Previsão]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="585" y="0" width="80" height="20"/>
+                <text><![CDATA[Fim]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="670" y="0" width="100" height="20"/>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+
+        </band>
+    </columnHeader>
+
+    <!-- DETALHES -->
+    <detail>
+        <band height="22">
+
+            <textField>
+                <reportElement x="0" y="0" width="40" height="20"/>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="45" y="0" width="180" height="20"/>
+                <textFieldExpression><![CDATA[$F{equipamento}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="230" y="0" width="180" height="20"/>
+                <textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+            </textField>
+
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="415" y="0" width="80" height="20"/>
+                <textFieldExpression><![CDATA[$F{data_inicio}]]></textFieldExpression>
+            </textField>
+
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="500" y="0" width="80" height="20"/>
+                <textFieldExpression><![CDATA[$F{data_previsao}]]></textFieldExpression>
+            </textField>
+
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="585" y="0" width="80" height="20"/>
+                <textFieldExpression><![CDATA[$F{data_fim}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="670" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+
+        </band>
+    </detail>
+
+</jasperReport>
