@@ -8,7 +8,9 @@ import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.aluguelequipamento.model.domain.Reserva;
 
@@ -39,6 +41,32 @@ public class ReservaDAO {
             while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
+    }
+
+    public Map<String, Integer> contarPorStatus() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT status, COUNT(*) AS total FROM reserva GROUP BY status ORDER BY total DESC, status";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("status"), rs.getInt("total"));
+            }
+        }
+        return dados;
+    }
+
+    public Map<String, Integer> contarPorEquipamento() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT e.nome AS equipamento, COUNT(r.id) AS total " +
+                     "FROM reserva r JOIN equipamento e ON e.id = r.equipamento_id " +
+                     "GROUP BY e.nome ORDER BY total DESC, e.nome LIMIT 8";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("equipamento"), rs.getInt("total"));
+            }
+        }
+        return dados;
     }
 
     public Reserva buscarPorId(int id) throws SQLException {

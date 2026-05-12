@@ -210,7 +210,7 @@ public class RelatorioManutencaoController {
                     "/br/com/aluguelequipamento/view/relatorios/relatorio-manutencao.jrxml");
 
             if (jasperStream == null) {
-                mostrarErro("Arquivo .jasper não encontrado.");
+                mostrarErro("Arquivo JRXML do relatório de manutenção não encontrado.");
                 return;
             }
 
