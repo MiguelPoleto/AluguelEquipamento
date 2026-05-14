@@ -20,7 +20,7 @@
     -fx-cursor: hand;
 }
 
-/* ══ Banner RN — verde (multa/atraso) ══ */
+/* ══ Banner RN ══ */
 .rn-banner {
     -fx-background-color: #1a3d1a;
     -fx-background-radius: 5;
@@ -154,22 +154,6 @@
     -fx-background-color: white;
     -fx-border-color: #2a5480;
     -fx-border-width: 1.5;
-}
-
-/* Campo multa — destaque laranja quando há atraso (aplique via controller) */
-.field-multa {
-    -fx-background-color: #eef4fb;
-    -fx-font-weight: bold;
-}
-.field-multa.com-atraso {
-    -fx-background-color: #fff3e0;
-    -fx-border-color: #e8a000;
-    -fx-text-fill: #7a4200;
-}
-.field-multa.sem-atraso {
-    -fx-background-color: #eaf3de;
-    -fx-border-color: #3b6d11;
-    -fx-text-fill: #1e6b3a;
 }
 
 /* ComboBox */

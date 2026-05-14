@@ -52,7 +52,7 @@ public class ManutencaoDAO {
         return null;
     }
 
-    /** RN: Maximo de 10 manutencoes em andamento simultaneamente. */
+    /** RN: Maximo de 10 manutencoes em andamento ao mesmo tempo. */
     public int contarEmAndamento() throws SQLException {
         String sql = "SELECT COUNT(*) FROM manutencao WHERE status = \'em_andamento\'";
         try (Statement st = ConexaoDAO.getConexao().createStatement();
