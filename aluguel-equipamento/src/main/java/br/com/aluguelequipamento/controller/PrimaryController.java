@@ -95,6 +95,12 @@ public class PrimaryController {
     @FXML private void abrirRelatorioManutencao() throws IOException {
         App.setRoot("relatorio-manutencao");
     }
+    @FXML private void abrirGraficoReservas() throws IOException {
+        App.setRoot("grafico-reservas");
+    }
+    @FXML private void abrirGraficoManutencoes() throws IOException {
+        App.setRoot("grafico-manutencoes");
+    }
 
     // Banco de dados
     @FXML private void abrirBancoDados() throws IOException {

@@ -29,6 +29,10 @@
                                    <MenuItem text="Listagem de Reservas" onAction="#abrirRelatorioReservas"/>
                                    <MenuItem text="Manutenção"           onAction="#abrirRelatorioManutencao"/>
                             </Menu>
+                            <Menu text="Gráficos">
+                                   <MenuItem text="Reservas" onAction="#abrirGraficoReservas"/>
+                                   <MenuItem text="Manutenções" onAction="#abrirGraficoManutencoes"/>
+                            </Menu>
                      </MenuBar>
                      <HBox style="-fx-background-color: #2a5480; -fx-padding: 14 20;"
                   alignment="CENTER_LEFT" spacing="14">
@@ -84,6 +88,16 @@
                     styleClass="sidebar-btn" onAction="#abrirRelatorioReservas"/>
                      <Button text="  Manutenção" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirRelatorioManutencao"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="GRÁFICOS" styleClass="section-label"/>
+                     <Button text="  Reservas" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirGraficoReservas"/>
+                     <Button text="  Manutenções" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirGraficoManutencoes"/>
                      <Region VBox.vgrow="ALWAYS"/>
                      <Separator>
                             <padding>
@@ -189,6 +203,27 @@
                                                  <Label text="MAN" styleClass="card-tag tag-manutencao"/>
                                                  <Label text="Manutenção" styleClass="card-title"/>
                                                  <Label text="Status e datas" styleClass="card-sub"/>
+                                          </VBox>
+                                   </HBox>
+                            </VBox>
+
+                            <VBox spacing="12" styleClass="group-panel">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="GRA" styleClass="card-tag tag-grafico"/>
+                                          <Label text="Gráficos" styleClass="group-title"/>
+                                   </HBox>
+                                   <HBox spacing="12" alignment="CENTER" styleClass="cards-duo">
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoReservas"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="RES" styleClass="card-tag tag-reserva"/>
+                                                 <Label text="Reservas" styleClass="card-title"/>
+                                                 <Label text="Por status e equipamento" styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoManutencoes"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="MAN" styleClass="card-tag tag-manutencao"/>
+                                                 <Label text="Manutenções" styleClass="card-title"/>
+                                                 <Label text="Por status e equipamento" styleClass="card-sub"/>
                                           </VBox>
                                    </HBox>
                             </VBox>
