@@ -253,13 +253,25 @@ public class ReservaDAO {
     }
 
     private void validarEquipamento(Connection conn, int equipamentoId) throws SQLException {
-        String sql = "SELECT id FROM equipamento WHERE id = ?";
+        String sql = "SELECT status FROM equipamento WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, equipamentoId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
-                    throw new SQLException("Equipamento nao encontrado.");
+                    throw new SQLException("Equipamento não encontrado.");
                 }
+
+                String status = rs.getString("status");
+
+                switch (status) {
+                    case "em_manutencao" ->
+                        throw new SQLException("Equipamento em manutenção não pode ser reservado.");
+                    case "alugado" ->
+                        throw new SQLException("Equipamento já está alugado e não pode ser reservado.");
+                    case "reservado" ->
+                        throw new SQLException("Equipamento já está reservado por outro cliente.");
+                }
+                // "disponivel" → permitido
             }
         }
     }

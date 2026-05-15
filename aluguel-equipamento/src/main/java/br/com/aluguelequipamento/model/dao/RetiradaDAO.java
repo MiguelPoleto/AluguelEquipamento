@@ -80,23 +80,43 @@ public class RetiradaDAO {
 
     public void inserir(Retirada r) throws SQLException {
         String sql = "INSERT INTO retirada (reserva_id, cliente_id, equipamento_id, " +
-                     "data_retirada, data_prev_devolucao, valor_total, status, observacao) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS)) {
-            if (r.getReservaId() != null) ps.setInt(1, r.getReservaId());
-            else ps.setNull(1, Types.INTEGER);
-            ps.setInt(2, r.getClienteId());
-            ps.setInt(3, r.getEquipamentoId());
-            ps.setDate(4, Date.valueOf(r.getDataRetirada()));
-            ps.setDate(5, Date.valueOf(r.getDataPrevDevolucao()));
-            ps.setBigDecimal(6, r.getValorTotal());
-            ps.setString(7, r.getStatus());
-            ps.setString(8, r.getObservacao());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) r.setId(keys.getInt(1));
+                    "data_retirada, data_prev_devolucao, valor_total, status, observacao) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        java.sql.Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                if (r.getReservaId() != null) ps.setInt(1, r.getReservaId());
+                else ps.setNull(1, Types.INTEGER);
+                ps.setInt(2, r.getClienteId());
+                ps.setInt(3, r.getEquipamentoId());
+                ps.setDate(4, Date.valueOf(r.getDataRetirada()));
+                ps.setDate(5, Date.valueOf(r.getDataPrevDevolucao()));
+                ps.setBigDecimal(6, r.getValorTotal());
+                ps.setString(7, r.getStatus());
+                ps.setString(8, r.getObservacao());
+                ps.executeUpdate();
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    if (keys.next()) r.setId(keys.getInt(1));
+                }
             }
+
+            // Marca o equipamento como "alugado"
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE equipamento SET status = 'alugado' WHERE id = ?")) {
+                ps.setInt(1, r.getEquipamentoId());
+                ps.executeUpdate();
+            }
+
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
         }
     }
 
@@ -128,12 +148,42 @@ public class RetiradaDAO {
     }
 
     public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM retirada WHERE id = ?";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
+    java.sql.Connection conn = ConexaoDAO.getConexao();
+    boolean autoCommitOriginal = conn.getAutoCommit();
+    try {
+        conn.setAutoCommit(false);
+
+        // Busca o equipamento antes de deletar
+        int equipamentoId;
+        try (PreparedStatement ps = conn.prepareStatement(
+                "SELECT equipamento_id FROM retirada WHERE id = ?")) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) throw new SQLException("Retirada não encontrada.");
+                equipamentoId = rs.getInt("equipamento_id");
+            }
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM retirada WHERE id = ?")) {
             ps.setInt(1, id);
             ps.executeUpdate();
         }
+
+        // Libera o equipamento de volta para "disponivel"
+        try (PreparedStatement ps = conn.prepareStatement(
+                "UPDATE equipamento SET status = 'disponivel' WHERE id = ? AND status = 'alugado'")) {
+            ps.setInt(1, equipamentoId);
+            ps.executeUpdate();
+        }
+
+        conn.commit();
+    } catch (SQLException ex) {
+        conn.rollback();
+        throw ex;
+    } finally {
+        conn.setAutoCommit(autoCommitOriginal);
     }
+}
 
     private Retirada mapear(ResultSet rs) throws SQLException {
         Retirada r = new Retirada();
