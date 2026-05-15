@@ -31,6 +31,7 @@
                             </Menu>
                             <Menu text="Gráficos">
                                    <MenuItem text="Reservas" onAction="#abrirGraficoReservas"/>
+                                   <MenuItem text="Aluguel" onAction="#abrirGraficoAluguel"/>
                                    <MenuItem text="Manutenções" onAction="#abrirGraficoManutencoes"/>
                             </Menu>
                      </MenuBar>
@@ -47,6 +48,12 @@
                                    <Label text="Gerencie reservas, retiradas, devoluções e manutenções"
                            style="-fx-font-size: 11; -fx-text-fill: #aacce8;"/>
                             </VBox>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Popular Banco" onAction="#abrirBancoDados"
+                                    style="-fx-background-color: #eaf3de; -fx-text-fill: #1e6b3a;
+                                           -fx-font-size: 12; -fx-font-weight: bold;
+                                           -fx-padding: 7 14; -fx-background-radius: 6;
+                                           -fx-cursor: hand;"/>
                      </HBox>
               </VBox>
        </top>
@@ -96,6 +103,8 @@
                      <Label text="GRÁFICOS" styleClass="section-label"/>
                      <Button text="  Reservas" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirGraficoReservas"/>
+                     <Button text="  Aluguel" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirGraficoAluguel"/>
                      <Button text="  Manutenções" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirGraficoManutencoes"/>
                      <Region VBox.vgrow="ALWAYS"/>
@@ -212,11 +221,17 @@
                                           <Label text="GRA" styleClass="card-tag tag-grafico"/>
                                           <Label text="Gráficos" styleClass="group-title"/>
                                    </HBox>
-                                   <HBox spacing="12" alignment="CENTER" styleClass="cards-duo">
+                                   <HBox spacing="12" alignment="CENTER" styleClass="cards-trio">
                                           <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoReservas"
                                                 HBox.hgrow="ALWAYS">
                                                  <Label text="RES" styleClass="card-tag tag-reserva"/>
                                                  <Label text="Reservas" styleClass="card-title"/>
+                                                 <Label text="Por status e equipamento" styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoAluguel"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="ALU" styleClass="card-tag tag-retirada"/>
+                                                 <Label text="Aluguel" styleClass="card-title"/>
                                                  <Label text="Por status e equipamento" styleClass="card-sub"/>
                                           </VBox>
                                           <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoManutencoes"

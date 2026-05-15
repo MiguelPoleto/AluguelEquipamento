@@ -123,3 +123,38 @@
 }
 .btn-secondary:hover   { -fx-background-color: #d0dff0; }
 .btn-secondary:pressed { -fx-background-color: #b8cce0; }
+
+.table-container {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+.table {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f7f9fc;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: transparent transparent #dde1e7 transparent;
+}
+
+.btn-back-footer {
+    -fx-background-color: transparent;
+    -fx-text-fill: #aacce8;
+    -fx-font-size: 12;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.btn-back-footer:hover {
+    -fx-text-fill: white;
+}

@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.aluguelequipamento.model.domain.Retirada;
 
@@ -37,6 +39,32 @@ public class RetiradaDAO {
             while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
+    }
+
+    public Map<String, Integer> contarPorStatus() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT status, COUNT(*) AS total FROM retirada GROUP BY status ORDER BY total DESC, status";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("status"), rs.getInt("total"));
+            }
+        }
+        return dados;
+    }
+
+    public Map<String, Integer> contarPorEquipamento() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT e.nome AS equipamento, COUNT(rt.id) AS total " +
+                     "FROM retirada rt JOIN equipamento e ON e.id = rt.equipamento_id " +
+                     "GROUP BY e.nome ORDER BY total DESC, e.nome LIMIT 8";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("equipamento"), rs.getInt("total"));
+            }
+        }
+        return dados;
     }
 
     public Retirada buscarPorId(int id) throws SQLException {

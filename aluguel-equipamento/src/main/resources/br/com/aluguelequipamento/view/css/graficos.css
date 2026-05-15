@@ -52,6 +52,10 @@
     -fx-background-color: #8b1a1a;
 }
 
+.tag-retirada {
+    -fx-background-color: #1e6b3a;
+}
+
 .content {
     -fx-padding: 18 22;
 }
@@ -89,6 +93,11 @@
 .manutencao-pill {
     -fx-text-fill: #8b1a1a;
     -fx-background-color: #fcebeb;
+}
+
+.retirada-pill {
+    -fx-text-fill: #1e6b3a;
+    -fx-background-color: #eaf3de;
 }
 
 .chart {

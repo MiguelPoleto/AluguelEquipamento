@@ -5,37 +5,33 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.com.aluguelequipamento.controller.RelatorioAluguelController"
-            prefWidth="920" prefHeight="420"
+            prefWidth="960" prefHeight="640"
             style="-fx-background-color: #f0f2f5;"
             stylesheets="@css/relatorio.css">
 
-    <!-- ══ TOPO ══ -->
     <top>
         <HBox style="-fx-background-color: #2a5480; -fx-padding: 12 20;"
               alignment="CENTER_LEFT" spacing="14">
-             <Button text="←" onAction="#switchToPrimary" styleClass="btn-top-back"/>
-            <Label text="REL"
+            <Button text="←" onAction="#switchToPrimary" styleClass="btn-top-back"/>
+            <Label text="ALU"
                    style="-fx-font-size: 11; -fx-font-weight: bold;
                           -fx-text-fill: #aacce8; -fx-padding: 4 10;
                           -fx-background-color: #1a3a5c; -fx-background-radius: 4;"/>
             <VBox>
-                <Label text="Relatório de Aluguel"
+                <Label text="Relatorio de Aluguel"
                        style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: white;"/>
-                <Label text="Retiradas e devoluções filtradas por período"
+                <Label text="Retiradas e devolucoes filtradas por periodo"
                        style="-fx-font-size: 11; -fx-text-fill: #aacce8;"/>
             </VBox>
         </HBox>
     </top>
 
-    <!-- ══ CENTRO ══ -->
     <center>
-        <VBox spacing="20" style="-fx-padding: 30 40;">
+        <VBox spacing="14" style="-fx-padding: 18 22;">
 
-            <!-- ── Card de filtro ── -->
             <VBox styleClass="card-filtro" spacing="0">
-
                 <HBox styleClass="card-header" alignment="CENTER_LEFT" spacing="10">
-                    <Label text="FILTRO POR PERÍODO" styleClass="section-label-inline"/>
+                    <Label text="FILTRO POR PERIODO" styleClass="section-label-inline"/>
                 </HBox>
 
                 <GridPane hgap="20" vgap="14" style="-fx-padding: 20 24;">
@@ -47,7 +43,7 @@
                         <ColumnConstraints hgrow="ALWAYS"/>
                     </columnConstraints>
 
-                    <Label text="Data Início *" styleClass="field-label"
+                    <Label text="Data Inicio *" styleClass="field-label"
                            GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                     <DatePicker fx:id="dpDataInicio" maxWidth="Infinity"
                                 styleClass="field-input"
@@ -60,50 +56,60 @@
                                 GridPane.rowIndex="0" GridPane.columnIndex="3"/>
                 </GridPane>
 
-                <!-- Botões -->
                 <HBox spacing="10" alignment="CENTER_RIGHT"
                       style="-fx-padding: 0 24 18 24;">
                     <Button fx:id="btnGerar"
-                            text="▶  Gerar Relatório"
+                            text="Imprimir"
                             styleClass="btn-primary"
                             onAction="#handleGerarRelatorio"
-                            prefWidth="160"/>
-                    <Button text="↺  Limpar"
+                            prefWidth="120"/>
+                    <Button text="Limpar"
                             styleClass="btn-secondary"
                             onAction="#handleLimpar"
                             prefWidth="100"/>
                 </HBox>
-
             </VBox>
 
-            <!-- ── Card informativo ── -->
-            <VBox styleClass="card-info" spacing="10" style="-fx-padding: 18 22;">
-                <Label text="O que este relatório exibe:"
-                       style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;"/>
-                <VBox spacing="6">
-                    <Label text="  ●  Todas as retiradas no período informado (por data de retirada)"
-                           styleClass="info-item"/>
-                    <Label text="  ●  Data de devolução efetiva (quando houver)"
-                           styleClass="info-item"/>
-                    <Label text="  ●  Totalizadores: quantidade de registros e soma dos aluguéis"
-                           styleClass="info-item"/>
-                    <Label text="  ●  O relatório é gerado em formato A4 paisagem e pode ser impresso ou exportado para PDF"
-                           styleClass="info-item"/>
-                </VBox>
+            <VBox styleClass="table-container" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tableAlugueis"
+                           VBox.vgrow="ALWAYS"
+                           styleClass="table">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="45"/>
+                        <TableColumn fx:id="colCliente" text="Cliente" prefWidth="145"/>
+                        <TableColumn fx:id="colEquipamento" text="Equipamento" prefWidth="145"/>
+                        <TableColumn fx:id="colDataRetirada" text="Retirada" prefWidth="88"/>
+                        <TableColumn fx:id="colDataPrevDevolucao" text="Prev. Dev." prefWidth="88"/>
+                        <TableColumn fx:id="colDataDevolucao" text="Devolucao" prefWidth="88"/>
+                        <TableColumn fx:id="colValorTotal" text="Valor" prefWidth="88"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 30;">
+                            <Label style="-fx-font-size: 13; -fx-text-fill: #8a9bb0;"
+                                   text="Nenhum aluguel encontrado."/>
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #b0bec5;"
+                                   text="Ajuste o periodo ou clique em Limpar."/>
+                        </VBox>
+                    </placeholder>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
             </VBox>
-
         </VBox>
     </center>
 
-    <!-- ══ RODAPÉ ══ -->
     <bottom>
         <HBox style="-fx-background-color: #1a3a5c; -fx-padding: 7 16;"
               spacing="12" alignment="CENTER_LEFT">
-            <Label text="Relatório de Aluguel"
+            <Label text="Relatorio de Aluguel"
                    style="-fx-text-fill: #aacce8; -fx-font-size: 11;"/>
             <Label text="|" style="-fx-text-fill: #3a5a7c;"/>
-            <Label fx:id="lblStatus" text="Selecione o período e clique em Gerar Relatório."
+            <Label fx:id="lblStatus" text="Selecione o periodo e clique em Imprimir."
                    style="-fx-text-fill: #aacce8; -fx-font-size: 11;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="← Voltar ao Menu" onAction="#switchToPrimary" styleClass="btn-back-footer"/>
         </HBox>
     </bottom>
 

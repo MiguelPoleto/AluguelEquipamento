@@ -87,7 +87,7 @@ public class PrimaryController {
 
     // Relatórios
     @FXML private void abrirRelatorioAluguel() throws IOException {
-        App.setRoot("relatorioAluguel");
+        App.setRoot("RelatorioAluguel");
     }
     @FXML private void abrirRelatorioReservas() throws IOException {
         App.setRoot("relatorio-reservas");
@@ -97,6 +97,9 @@ public class PrimaryController {
     }
     @FXML private void abrirGraficoReservas() throws IOException {
         App.setRoot("grafico-reservas");
+    }
+    @FXML private void abrirGraficoAluguel() throws IOException {
+        App.setRoot("grafico-aluguel");
     }
     @FXML private void abrirGraficoManutencoes() throws IOException {
         App.setRoot("grafico-manutencoes");
