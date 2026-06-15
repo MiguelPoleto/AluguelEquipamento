@@ -110,6 +110,10 @@ public class PrimaryController {
         App.setRoot("banco-dados");
     }
 
+    @FXML private void abrirMuralAvisos() throws IOException {
+        App.setRoot("mural-avisos");
+    }
+
     @FXML private void sair() {
         System.exit(0);
     }

@@ -34,6 +34,9 @@
                                    <MenuItem text="Aluguel" onAction="#abrirGraficoAluguel"/>
                                    <MenuItem text="Manutenções" onAction="#abrirGraficoManutencoes"/>
                             </Menu>
+                            <Menu text="Sockets">
+                                   <MenuItem text="Mural de Avisos" onAction="#abrirMuralAvisos"/>
+                            </Menu>
                      </MenuBar>
                      <HBox style="-fx-background-color: #2a5480; -fx-padding: 14 20;"
                   alignment="CENTER_LEFT" spacing="14">
@@ -116,6 +119,14 @@
                      <Label text="BANCO" styleClass="section-label"/>
                      <Button text="  Popular Banco" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirBancoDados"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="SOCKETS" styleClass="section-label"/>
+                     <Button text="  Mural de Avisos" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirMuralAvisos"/>
               </VBox>
        </left>
        <!-- CENTRO -->
@@ -252,6 +263,18 @@
                                           <Label text="POP" styleClass="card-tag tag-banco"/>
                                           <Label text="Popular Banco" styleClass="card-title"/>
                                           <Label text="Limpar ou gerar dados fictícios" styleClass="card-sub"/>
+                                   </VBox>
+                            </VBox>
+
+                            <VBox spacing="10" styleClass="group-panel banco-panel" alignment="TOP_CENTER">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="NET" styleClass="card-tag tag-processo"/>
+                                          <Label text="Sockets" styleClass="group-title"/>
+                                   </HBox>
+                                   <VBox styleClass="card" spacing="8" onMouseClicked="#abrirMuralAvisos">
+                                          <Label text="MUR" styleClass="card-tag tag-reserva"/>
+                                          <Label text="Mural de Avisos" styleClass="card-title"/>
+                                          <Label text="Conexão com servidor" styleClass="card-sub"/>
                                    </VBox>
                             </VBox>
                      </TilePane>
