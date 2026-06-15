@@ -54,16 +54,46 @@ public class DevolucaoDAO {
     }
 
     public void inserir(Devolucao d) throws SQLException {
-        String sql = "INSERT INTO devolucao (retirada_id, data_devolucao, observacao, status) " +
-                     "VALUES (?, ?, ?, ?)";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
+    java.sql.Connection conn = ConexaoDAO.getConexao();
+    boolean autoCommitOriginal = conn.getAutoCommit();
+    try {
+        conn.setAutoCommit(false);
+
+        // 1) Insere a devolução
+        try (PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO devolucao (retirada_id, data_devolucao, observacao, status) " +
+                "VALUES (?, ?, ?, ?)")) {
             ps.setInt(1, d.getRetiradaId());
             ps.setDate(2, Date.valueOf(d.getDataDevolucao()));
             ps.setString(3, d.getObservacao());
             ps.setString(4, d.getStatus());
             ps.executeUpdate();
         }
+
+        // 2) Marca a retirada como "concluida"
+        try (PreparedStatement ps = conn.prepareStatement(
+                "UPDATE retirada SET status = 'concluida' WHERE id = ?")) {
+            ps.setInt(1, d.getRetiradaId());
+            ps.executeUpdate();
+        }
+
+        // 3) Libera o equipamento para "disponivel"
+        try (PreparedStatement ps = conn.prepareStatement(
+                "UPDATE equipamento SET status = 'disponivel' " +
+                "WHERE id = (SELECT equipamento_id FROM retirada WHERE id = ?) " +
+                "AND status = 'alugado'")) {
+            ps.setInt(1, d.getRetiradaId());
+            ps.executeUpdate();
+        }
+
+        conn.commit();
+    } catch (SQLException ex) {
+        conn.rollback();
+        throw ex;
+    } finally {
+        conn.setAutoCommit(autoCommitOriginal);
     }
+}
 
     public void alterar(Devolucao d) throws SQLException {
         String sql = "UPDATE devolucao SET retirada_id=?, data_devolucao=?, " +

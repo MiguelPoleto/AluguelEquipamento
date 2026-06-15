@@ -29,6 +29,14 @@
                                    <MenuItem text="Listagem de Reservas" onAction="#abrirRelatorioReservas"/>
                                    <MenuItem text="Manutenção"           onAction="#abrirRelatorioManutencao"/>
                             </Menu>
+                            <Menu text="Gráficos">
+                                   <MenuItem text="Reservas" onAction="#abrirGraficoReservas"/>
+                                   <MenuItem text="Aluguel" onAction="#abrirGraficoAluguel"/>
+                                   <MenuItem text="Manutenções" onAction="#abrirGraficoManutencoes"/>
+                            </Menu>
+                            <Menu text="Sockets">
+                                   <MenuItem text="Mural de Avisos" onAction="#abrirMuralAvisos"/>
+                            </Menu>
                      </MenuBar>
                      <HBox style="-fx-background-color: #2a5480; -fx-padding: 14 20;"
                   alignment="CENTER_LEFT" spacing="14">
@@ -43,6 +51,12 @@
                                    <Label text="Gerencie reservas, retiradas, devoluções e manutenções"
                            style="-fx-font-size: 11; -fx-text-fill: #aacce8;"/>
                             </VBox>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Popular Banco" onAction="#abrirBancoDados"
+                                    style="-fx-background-color: #eaf3de; -fx-text-fill: #1e6b3a;
+                                           -fx-font-size: 12; -fx-font-weight: bold;
+                                           -fx-padding: 7 14; -fx-background-radius: 6;
+                                           -fx-cursor: hand;"/>
                      </HBox>
               </VBox>
        </top>
@@ -84,6 +98,18 @@
                     styleClass="sidebar-btn" onAction="#abrirRelatorioReservas"/>
                      <Button text="  Manutenção" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirRelatorioManutencao"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="GRÁFICOS" styleClass="section-label"/>
+                     <Button text="  Reservas" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirGraficoReservas"/>
+                     <Button text="  Aluguel" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirGraficoAluguel"/>
+                     <Button text="  Manutenções" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirGraficoManutencoes"/>
                      <Region VBox.vgrow="ALWAYS"/>
                      <Separator>
                             <padding>
@@ -93,6 +119,14 @@
                      <Label text="BANCO" styleClass="section-label"/>
                      <Button text="  Popular Banco" maxWidth="Infinity"
                     styleClass="sidebar-btn" onAction="#abrirBancoDados"/>
+                     <Separator>
+                            <padding>
+                                   <Insets top="6" bottom="6"/>
+                            </padding>
+                     </Separator>
+                     <Label text="SOCKETS" styleClass="section-label"/>
+                     <Button text="  Mural de Avisos" maxWidth="Infinity"
+                    styleClass="sidebar-btn" onAction="#abrirMuralAvisos"/>
               </VBox>
        </left>
        <!-- CENTRO -->
@@ -193,6 +227,33 @@
                                    </HBox>
                             </VBox>
 
+                            <VBox spacing="12" styleClass="group-panel">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="GRA" styleClass="card-tag tag-grafico"/>
+                                          <Label text="Gráficos" styleClass="group-title"/>
+                                   </HBox>
+                                   <HBox spacing="12" alignment="CENTER" styleClass="cards-trio">
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoReservas"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="RES" styleClass="card-tag tag-reserva"/>
+                                                 <Label text="Reservas" styleClass="card-title"/>
+                                                 <Label text="Por status e equipamento" styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoAluguel"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="ALU" styleClass="card-tag tag-retirada"/>
+                                                 <Label text="Aluguel" styleClass="card-title"/>
+                                                 <Label text="Por status e equipamento" styleClass="card-sub"/>
+                                          </VBox>
+                                          <VBox styleClass="card" spacing="8" onMouseClicked="#abrirGraficoManutencoes"
+                                                HBox.hgrow="ALWAYS">
+                                                 <Label text="MAN" styleClass="card-tag tag-manutencao"/>
+                                                 <Label text="Manutenções" styleClass="card-title"/>
+                                                 <Label text="Por status e equipamento" styleClass="card-sub"/>
+                                          </VBox>
+                                   </HBox>
+                            </VBox>
+
                             <VBox spacing="10" styleClass="group-panel banco-panel" alignment="TOP_CENTER">
                                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
                                           <Label text="BD" styleClass="card-tag tag-banco"/>
@@ -202,6 +263,18 @@
                                           <Label text="POP" styleClass="card-tag tag-banco"/>
                                           <Label text="Popular Banco" styleClass="card-title"/>
                                           <Label text="Limpar ou gerar dados fictícios" styleClass="card-sub"/>
+                                   </VBox>
+                            </VBox>
+
+                            <VBox spacing="10" styleClass="group-panel banco-panel" alignment="TOP_CENTER">
+                                   <HBox alignment="CENTER_LEFT" spacing="10" styleClass="group-header">
+                                          <Label text="NET" styleClass="card-tag tag-processo"/>
+                                          <Label text="Sockets" styleClass="group-title"/>
+                                   </HBox>
+                                   <VBox styleClass="card" spacing="8" onMouseClicked="#abrirMuralAvisos">
+                                          <Label text="MUR" styleClass="card-tag tag-reserva"/>
+                                          <Label text="Mural de Avisos" styleClass="card-title"/>
+                                          <Label text="Conexão com servidor" styleClass="card-sub"/>
                                    </VBox>
                             </VBox>
                      </TilePane>

@@ -87,7 +87,7 @@ public class PrimaryController {
 
     // Relatórios
     @FXML private void abrirRelatorioAluguel() throws IOException {
-        App.setRoot("relatorio-aluguel");
+        App.setRoot("RelatorioAluguel");
     }
     @FXML private void abrirRelatorioReservas() throws IOException {
         App.setRoot("relatorio-reservas");
@@ -95,10 +95,23 @@ public class PrimaryController {
     @FXML private void abrirRelatorioManutencao() throws IOException {
         App.setRoot("relatorio-manutencao");
     }
+    @FXML private void abrirGraficoReservas() throws IOException {
+        App.setRoot("grafico-reservas");
+    }
+    @FXML private void abrirGraficoAluguel() throws IOException {
+        App.setRoot("grafico-aluguel");
+    }
+    @FXML private void abrirGraficoManutencoes() throws IOException {
+        App.setRoot("grafico-manutencoes");
+    }
 
     // Banco de dados
     @FXML private void abrirBancoDados() throws IOException {
         App.setRoot("banco-dados");
+    }
+
+    @FXML private void abrirMuralAvisos() throws IOException {
+        App.setRoot("mural-avisos");
     }
 
     @FXML private void sair() {

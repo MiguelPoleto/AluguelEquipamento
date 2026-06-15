@@ -72,6 +72,7 @@ public class RetiradaController {
         cmbEquipamento.valueProperty().addListener((obs, a, n) -> calcularValor());
         dpDataRetirada.valueProperty().addListener((obs, a, n) -> calcularValor());
         dpDataPrevDev.valueProperty().addListener((obs, a, n)  -> calcularValor());
+        cmbReserva.valueProperty().addListener((obs, a, n) -> preencherDadosDaReserva(n));
 
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, a, n) -> selecionarItemTableView(n));
@@ -115,6 +116,12 @@ public class RetiradaController {
             alerta(Alert.AlertType.WARNING, "Campos inválidos", erros.toString());
             return false;
         }
+
+        if (cmbEquipamento.getValue() == null) {
+            erros.append("• Selecione um equipamento.\n");
+        } else if (!"disponivel".equals(cmbEquipamento.getValue().getStatus())) {
+            erros.append("• O equipamento selecionado não está disponível para retirada.\n");
+        }
         return true;
     }
 
@@ -144,6 +151,40 @@ public class RetiradaController {
         tableView.getSelectionModel().clearSelection();
     }
 
+    private void preencherDadosDaReserva(Reserva reserva) {
+        if (reserva == null) return;
+
+        // Preenche o cliente
+        cmbCliente.getItems().stream()
+                .filter(c -> c.getId() == reserva.getClienteId())
+                .findFirst()
+                .ifPresent(cmbCliente::setValue);
+
+        // Garante que o equipamento da reserva esteja no combo,
+        // mesmo que seu status não seja "disponivel"
+        boolean jaEstaNaLista = cmbEquipamento.getItems().stream()
+                .anyMatch(e -> e.getId() == reserva.getEquipamentoId());
+
+        if (!jaEstaNaLista) {
+            try {
+                Equipamento equip = new EquipamentoDAO().buscarPorId(reserva.getEquipamentoId());
+                if (equip != null) {
+                    cmbEquipamento.getItems().add(equip);
+                }
+            } catch (Exception e) {
+                alerta(Alert.AlertType.ERROR, "Erro",
+                        "Erro ao carregar equipamento da reserva:\n" + e.getMessage());
+                return;
+            }
+        }
+
+        // Seleciona o equipamento da reserva
+        cmbEquipamento.getItems().stream()
+                .filter(e -> e.getId() == reserva.getEquipamentoId())
+                .findFirst()
+                .ifPresent(cmbEquipamento::setValue);
+    }
+
     public void carregarTableView() {
         RetiradaDAO dao = new RetiradaDAO();
         try {
@@ -163,29 +204,28 @@ public class RetiradaController {
         }
     }
 
-    /**
-     * Carrega apenas equipamentos que NÃO estão em manutenção.
-     * Status bloqueado: "em_manutencao"
-     */
     public void carregarComboBoxEquipamentos() {
-        try {
-            List<Equipamento> todos = new EquipamentoDAO().listar();
-            List<Equipamento> disponiveis = todos.stream()
-                    .filter(e -> !"em_manutencao".equals(e.getStatus()))
-                    .toList();
-            cmbEquipamento.getItems().setAll(disponiveis);
-        } catch (Exception e) {
-            alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar equipamentos:\n" + e.getMessage());
-        }
+    try {
+        List<Equipamento> todos = new EquipamentoDAO().listar();
+        // Apenas equipamentos disponíveis podem ser retirados
+        List<Equipamento> disponiveis = todos.stream()
+                .filter(e -> "disponivel".equals(e.getStatus()))
+                .toList();
+        cmbEquipamento.getItems().setAll(disponiveis);
+    } catch (Exception e) {
+        alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar equipamentos:\n" + e.getMessage());
     }
+}
 
     public void carregarComboBoxReservas() {
-        try {
-            cmbReserva.getItems().setAll(new ReservaDAO().listar());
-        } catch (Exception e) {
-            alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar reservas:\n" + e.getMessage());
-        }
+    try {
+        // Apenas reservas ativas podem gerar uma retirada
+        List<Reserva> ativas = new ReservaDAO().listarAtivas();
+        cmbReserva.getItems().setAll(ativas);
+    } catch (Exception e) {
+        alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar reservas:\n" + e.getMessage());
     }
+}
 
     public void calcularValor() {
         Equipamento eq = cmbEquipamento.getValue();
@@ -318,6 +358,7 @@ public class RetiradaController {
     @FXML
     private void handleLimpar() {
         limparCampos();
+        carregarComboBoxEquipamentos();
     }
 
     @FXML

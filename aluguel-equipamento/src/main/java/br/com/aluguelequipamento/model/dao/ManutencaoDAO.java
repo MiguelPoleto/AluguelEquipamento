@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.aluguelequipamento.model.domain.Manutencao;
 
@@ -40,6 +42,32 @@ public class ManutencaoDAO {
         return lista;
     }
 
+    public Map<String, Integer> contarPorStatus() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT status, COUNT(*) AS total FROM manutencao GROUP BY status ORDER BY total DESC, status";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("status"), rs.getInt("total"));
+            }
+        }
+        return dados;
+    }
+
+    public Map<String, Integer> contarPorEquipamento() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT e.nome AS equipamento, COUNT(m.id) AS total " +
+                "FROM manutencao m JOIN equipamento e ON e.id = m.equipamento_id " +
+                "GROUP BY e.nome ORDER BY total DESC, e.nome LIMIT 8";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("equipamento"), rs.getInt("total"));
+            }
+        }
+        return dados;
+    }
+
     public Manutencao buscarPorId(int id) throws SQLException {
         String sql = SQL_BASE + "WHERE m.id = ?";
         try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
@@ -52,7 +80,7 @@ public class ManutencaoDAO {
         return null;
     }
 
-    /** RN: Maximo de 10 manutencoes em andamento simultaneamente. */
+    /** RN: Maximo de 10 manutencoes em andamento ao mesmo tempo. */
     public int contarEmAndamento() throws SQLException {
         String sql = "SELECT COUNT(*) FROM manutencao WHERE status = \'em_andamento\'";
         try (Statement st = ConexaoDAO.getConexao().createStatement();

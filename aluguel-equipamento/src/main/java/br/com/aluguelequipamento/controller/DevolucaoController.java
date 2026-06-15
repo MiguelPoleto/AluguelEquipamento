@@ -111,13 +111,14 @@ public class DevolucaoController {
     }
 
     private void carregarComboBoxRetiradas() {
-        try {
-            List<Retirada> lista = new RetiradaDAO().listar();
-            cmbRetirada.setItems(FXCollections.observableArrayList(lista));
-        } catch (Exception e) {
-            alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar retiradas:\n" + e.getMessage());
-        }
+    try {
+        // Apenas retiradas com status "ativa" podem ser devolvidas
+        List<Retirada> lista = new RetiradaDAO().listarAtivas();
+        cmbRetirada.setItems(FXCollections.observableArrayList(lista));
+    } catch (Exception e) {
+        alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar retiradas:\n" + e.getMessage());
     }
+}
 
     private void selecionarItemComboBoxRetirada(Retirada retirada) {
         if (retirada == null) {

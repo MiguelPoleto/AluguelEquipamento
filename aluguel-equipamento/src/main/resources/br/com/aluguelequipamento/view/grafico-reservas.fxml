@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.aluguelequipamento.controller.GraficoReservasController"
+            prefWidth="960" prefHeight="640"
+            stylesheets="@css/graficos.css">
+
+    <top>
+        <HBox styleClass="header" alignment="CENTER_LEFT" spacing="14">
+            <Button text="←" onAction="#voltarMenu" styleClass="btn-top-back"/>
+            <Label text="RES" styleClass="card-tag tag-reserva"/>
+            <VBox>
+                <Label text="Gráfico — Reservas" styleClass="header-title"/>
+                <Label text="Reservas por equipamento e distribuição por status" styleClass="header-subtitle"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblReservasTotal" text="0 reserva(s)" styleClass="summary-pill reserva-pill"/>
+            <Button text="Atualizar" onAction="#carregarGraficos" styleClass="btn-refresh"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="16" styleClass="content">
+            <VBox spacing="10" styleClass="chart-panel" HBox.hgrow="ALWAYS">
+                <Label text="Reservas por Equipamento" styleClass="panel-title"/>
+                <BarChart fx:id="chartReservasEquipamento" legendVisible="false" animated="false" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis label="Equipamento"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Quantidade" tickUnit="1" minorTickVisible="false"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+
+            <VBox spacing="10" styleClass="chart-panel side-chart">
+                <Label text="Reservas por Status" styleClass="panel-title"/>
+                <PieChart fx:id="chartReservasStatus" labelsVisible="true" legendVisible="true" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="footer" spacing="12" alignment="CENTER_LEFT">
+            <Label text="Gráfico de Reservas" styleClass="footer-text"/>
+            <Label text="|" styleClass="footer-separator"/>
+            <Label text="Consultas com COUNT, GROUP BY e JOIN" styleClass="footer-text"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblErro" text="" wrapText="true" styleClass="error-label"/>
+            <Button text="← Voltar ao Menu" onAction="#voltarMenu" styleClass="btn-back-footer"/>
+        </HBox>
+    </bottom>
+</BorderPane>

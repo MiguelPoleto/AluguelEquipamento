@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+    http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="relatorio-manutencao"
+    pageWidth="842"
+    pageHeight="595"
+    orientation="Landscape"
+    columnWidth="802"
+    leftMargin="20"
+    rightMargin="20"
+    topMargin="20"
+    bottomMargin="20">
+
+    <parameter name="P_STATUS" class="java.lang.String"/>
+    <parameter name="P_EQUIPAMENTO_ID" class="java.lang.Integer"/>
+    <parameter name="P_DATA_DE" class="java.sql.Date"/>
+    <parameter name="P_DATA_ATE" class="java.sql.Date"/>
+
+    <queryString>
+        <![CDATA[
+        SELECT
+            m.id,
+            e.nome AS equipamento,
+            m.descricao,
+            m.data_inicio,
+            m.data_previsao,
+            m.data_fim,
+            m.status,
+            COUNT(*) OVER() AS total_filtrado
+        FROM manutencao m
+        JOIN equipamento e ON e.id = m.equipamento_id
+        WHERE m.status LIKE $P{P_STATUS}
+          AND ($P{P_EQUIPAMENTO_ID} = 0 OR e.id = $P{P_EQUIPAMENTO_ID})
+          AND ($P{P_DATA_DE} IS NULL OR m.data_inicio >= $P{P_DATA_DE})
+          AND ($P{P_DATA_ATE} IS NULL OR m.data_inicio <= $P{P_DATA_ATE})
+        ORDER BY m.data_inicio DESC, m.id DESC
+        ]]>
+    </queryString>
+
+    <field name="id" class="java.lang.Integer"/>
+    <field name="equipamento" class="java.lang.String"/>
+    <field name="descricao" class="java.lang.String"/>
+    <field name="data_inicio" class="java.sql.Date"/>
+    <field name="data_previsao" class="java.sql.Date"/>
+    <field name="data_fim" class="java.sql.Date"/>
+    <field name="status" class="java.lang.String"/>
+    <field name="total_filtrado" class="java.lang.Long"/>
+
+    <title>
+        <band height="70">
+            <rectangle>
+                <reportElement x="0" y="0" width="802" height="56" backcolor="#2A5480"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="18" y="9" width="430" height="24" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[RELATÓRIO DE MANUTENÇÕES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="18" y="35" width="470" height="14" forecolor="#AACCE8"/>
+                <textElement>
+                    <font size="10"/>
+                </textElement>
+                <text><![CDATA[Manutenção de equipamentos com filtros por status, equipamento e período]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="640" y="18" width="142" height="18" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="28">
+            <staticText>
+                <reportElement x="0" y="0" width="48" height="16" forecolor="#5A6B7C"/>
+                <textElement><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[Status:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="50" y="0" width="155" height="16" forecolor="#1A3A5C"/>
+                <textElement><font size="9"/></textElement>
+                <textFieldExpression><![CDATA["%".equals($P{P_STATUS}) ? "Todos" : $P{P_STATUS}.replace("_", " ")]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="225" y="0" width="60" height="16" forecolor="#5A6B7C"/>
+                <textElement><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[Período:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="288" y="0" width="240" height="16" forecolor="#1A3A5C"/>
+                <textElement><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[
+                    ($P{P_DATA_DE} == null ? "Sem início" : new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{P_DATA_DE}))
+                    + " até "
+                    + ($P{P_DATA_ATE} == null ? "sem fim" : new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{P_DATA_ATE}))
+                ]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="26">
+            <rectangle>
+                <reportElement x="0" y="0" width="802" height="22" backcolor="#FCEBEB"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText><reportElement x="8" y="4" width="34" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[ID]]></text></staticText>
+            <staticText><reportElement x="48" y="4" width="175" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Equipamento]]></text></staticText>
+            <staticText><reportElement x="230" y="4" width="210" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Descrição]]></text></staticText>
+            <staticText><reportElement x="448" y="4" width="72" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Entrada]]></text></staticText>
+            <staticText><reportElement x="526" y="4" width="72" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Previsão]]></text></staticText>
+            <staticText><reportElement x="604" y="4" width="72" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Fim]]></text></staticText>
+            <staticText><reportElement x="690" y="4" width="90" height="14" forecolor="#1A3A5C"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Status]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="28">
+            <line><reportElement x="0" y="27" width="802" height="1" forecolor="#DDE1E7"/></line>
+            <textField><reportElement x="8" y="5" width="34" height="16" forecolor="#3A4A5C"/><textElement><font size="9"/></textElement><textFieldExpression><![CDATA[$F{id}]]></textFieldExpression></textField>
+            <textField textAdjust="StretchHeight"><reportElement x="48" y="5" width="175" height="16" forecolor="#3A4A5C"/><textElement><font size="9"/></textElement><textFieldExpression><![CDATA[$F{equipamento}]]></textFieldExpression></textField>
+            <textField textAdjust="StretchHeight"><reportElement x="230" y="5" width="210" height="16" forecolor="#3A4A5C"/><textElement><font size="9"/></textElement><textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression></textField>
+            <textField pattern="dd/MM/yyyy"><reportElement x="448" y="5" width="72" height="16" forecolor="#3A4A5C"/><textElement><font size="9"/></textElement><textFieldExpression><![CDATA[$F{data_inicio}]]></textFieldExpression></textField>
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true"><reportElement x="526" y="5" width="72" height="16" forecolor="#3A4A5C"/><textElement><font size="9"/></textElement><textFieldExpression><![CDATA[$F{data_previsao}]]></textFieldExpression></textField>
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true"><reportElement x="604" y="5" width="72" height="16" forecolor="#3A4A5C"/><textElement><font size="9"/></textElement><textFieldExpression><![CDATA[$F{data_fim}]]></textFieldExpression></textField>
+            <textField><reportElement x="690" y="5" width="90" height="16" forecolor="#8B1A1A"/><textElement><font size="9" isBold="true"/></textElement><textFieldExpression><![CDATA[$F{status}.replace("_", " ")]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="20">
+            <textField>
+                <reportElement x="690" y="2" width="90" height="14" forecolor="#8A9BB0"/>
+                <textElement textAlignment="Right"><font size="8"/></textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="42">
+            <rectangle>
+                <reportElement x="0" y="8" width="802" height="28" backcolor="#F7F9FC"/>
+                <graphicElement>
+                    <pen lineColor="#DDE1E7"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="16" y="16" width="115" height="14" forecolor="#5A6B7C"/>
+                <textElement><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[Total filtrado:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="132" y="16" width="80" height="14" forecolor="#1A3A5C"/>
+                <textElement><font size="9" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$F{total_filtrado}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

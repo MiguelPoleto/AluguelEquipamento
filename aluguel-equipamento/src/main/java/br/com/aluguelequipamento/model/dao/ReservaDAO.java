@@ -8,7 +8,9 @@ import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.aluguelequipamento.model.domain.Reserva;
 
@@ -39,6 +41,32 @@ public class ReservaDAO {
             while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
+    }
+
+    public Map<String, Integer> contarPorStatus() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT status, COUNT(*) AS total FROM reserva GROUP BY status ORDER BY total DESC, status";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("status"), rs.getInt("total"));
+            }
+        }
+        return dados;
+    }
+
+    public Map<String, Integer> contarPorEquipamento() throws SQLException {
+        Map<String, Integer> dados = new LinkedHashMap<>();
+        String sql = "SELECT e.nome AS equipamento, COUNT(r.id) AS total " +
+                     "FROM reserva r JOIN equipamento e ON e.id = r.equipamento_id " +
+                     "GROUP BY e.nome ORDER BY total DESC, e.nome LIMIT 8";
+        try (Statement st = ConexaoDAO.getConexao().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                dados.put(rs.getString("equipamento"), rs.getInt("total"));
+            }
+        }
+        return dados;
     }
 
     public Reserva buscarPorId(int id) throws SQLException {
@@ -225,13 +253,25 @@ public class ReservaDAO {
     }
 
     private void validarEquipamento(Connection conn, int equipamentoId) throws SQLException {
-        String sql = "SELECT id FROM equipamento WHERE id = ?";
+        String sql = "SELECT status FROM equipamento WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, equipamentoId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
-                    throw new SQLException("Equipamento nao encontrado.");
+                    throw new SQLException("Equipamento não encontrado.");
                 }
+
+                String status = rs.getString("status");
+
+                switch (status) {
+                    case "em_manutencao" ->
+                        throw new SQLException("Equipamento em manutenção não pode ser reservado.");
+                    case "alugado" ->
+                        throw new SQLException("Equipamento já está alugado e não pode ser reservado.");
+                    case "reservado" ->
+                        throw new SQLException("Equipamento já está reservado por outro cliente.");
+                }
+                // "disponivel" → permitido
             }
         }
     }

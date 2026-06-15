@@ -1,0 +1,125 @@
+.topbar {
+    -fx-background-color: #234d73;
+    -fx-padding: 14 22;
+}
+
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.page-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #c8dceb;
+}
+
+.content {
+    -fx-padding: 22;
+}
+
+.panel {
+    -fx-background-color: white;
+    -fx-border-color: #dbe5ef;
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 16;
+}
+
+.panel-title,
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #15283a;
+}
+
+.panel-title-blue {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f5da8;
+}
+
+.panel-title-green {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #23613c;
+}
+
+.muted {
+    -fx-font-size: 13px;
+    -fx-text-fill: #617489;
+}
+
+.muted-strong {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #42576d;
+}
+
+.status {
+    -fx-font-size: 12px;
+    -fx-text-fill: #4a6380;
+}
+
+.btn-primary {
+    -fx-background-color: #2f63d8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 8 18;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #2554ba;
+}
+
+.btn-secondary {
+    -fx-background-color: #e9f1f8;
+    -fx-text-fill: #1f4d76;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+}
+
+.highlight-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #245bd7;
+}
+
+.highlight-box {
+    -fx-background-color: #eef6ff;
+    -fx-border-color: #c9dff4;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 18;
+    -fx-min-height: 92;
+}
+
+.highlight-message {
+    -fx-font-size: 18px;
+    -fx-text-fill: #41546a;
+}
+
+.table-view,
+.list-view {
+    -fx-border-color: #cbd7e2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.table-view .column-header {
+    -fx-background-color: #edf2f6;
+}
+
+.split-pane {
+    -fx-background-color: transparent;
+}
+
+.split-pane-divider {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5;
+}

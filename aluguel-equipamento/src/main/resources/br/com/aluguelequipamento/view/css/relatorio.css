@@ -1,0 +1,160 @@
+/* ═══════════════════════════════════════════════════════════════
+   relatorio.css  —  Relatório de Aluguel
+   Paleta idêntica ao primary.css
+   ═══════════════════════════════════════════════════════════════ */
+
+.root {
+    -fx-background-color: #f0f2f5;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* ══ Card de filtro ══ */
+.card-filtro {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.card-header {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: transparent transparent #dde1e7 transparent;
+    -fx-border-radius: 8 8 0 0;
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 10 20;
+}
+
+/* ══ Card informativo ══ */
+.card-info {
+    -fx-background-color: #eef4fb;
+    -fx-border-color: #ccd8e8;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.info-item {
+    -fx-font-size: 12px;
+    -fx-text-fill: #3a4a5c;
+}
+
+/* ══ Section label ══ */
+.section-label-inline {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8a9bb0;
+    -fx-letter-spacing: 0.04em;
+}
+
+/* ══ Fields ══ */
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3a4a5c;
+}
+
+.field-input,
+.date-picker > .text-field {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: #ccd8e8;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 7 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1a3a5c;
+}
+.field-input:focused,
+.date-picker:focused > .text-field {
+    -fx-background-color: white;
+    -fx-border-color: #2a5480;
+    -fx-border-width: 1.5;
+}
+.date-picker {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.date-picker .arrow-button {
+    -fx-background-color: #e8eef7;
+    -fx-border-color: #ccd8e8;
+    -fx-border-radius: 0 5 5 0;
+    -fx-padding: 0 8;
+}
+.date-picker .arrow-button:hover { -fx-background-color: #d0dff0; }
+
+/* ══ Botões ══ */
+.btn-primary, .btn-secondary {
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 18;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-width: 0;
+}
+.btn-primary {
+    -fx-background-color: #2a5480;
+    -fx-text-fill: white;
+}
+.btn-primary:hover   { -fx-background-color: #1a3a5c; }
+.btn-primary:pressed { -fx-background-color: #12283f; }
+.btn-primary:disabled { -fx-background-color: #8a9bb0; -fx-text-fill: #dde1e7; }
+
+/* BOTÃO VOLTAR */
+.btn-top-back {
+    -fx-background-color: #1a3a5c;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-min-width: 34;
+    -fx-min-height: 30;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-top-back:hover {
+    -fx-background-color: #14304d;
+}
+
+.btn-secondary {
+    -fx-background-color: #e8eef7;
+    -fx-text-fill: #3a4a5c;
+    -fx-border-color: #ccd8e8;
+    -fx-border-width: 1;
+}
+.btn-secondary:hover   { -fx-background-color: #d0dff0; }
+.btn-secondary:pressed { -fx-background-color: #b8cce0; }
+
+.table-container {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+.table {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f7f9fc;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: #f7f9fc;
+    -fx-border-color: transparent transparent #dde1e7 transparent;
+}
+
+.btn-back-footer {
+    -fx-background-color: transparent;
+    -fx-text-fill: #aacce8;
+    -fx-font-size: 12;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.btn-back-footer:hover {
+    -fx-text-fill: white;
+}
