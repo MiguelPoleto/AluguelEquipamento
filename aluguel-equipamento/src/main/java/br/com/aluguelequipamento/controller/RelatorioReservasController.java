@@ -185,7 +185,7 @@ public class RelatorioReservasController {
 
             // 2) Carregar o arquivo .jasper compilado do classpath
             InputStream jasperStream = getClass().getResourceAsStream(
-                    "/br/com/aluguelequipamento/view/relatorios/relatorio-manutencao.jrxml");
+                    "/br/com/aluguelequipamento/view/relatorios/relatorio-reservas.jrxml");
 
             if (jasperStream == null) {
                 mostrarErro("Arquivo .jasper não encontrado.");
