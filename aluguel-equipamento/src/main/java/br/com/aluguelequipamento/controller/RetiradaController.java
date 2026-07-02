@@ -254,6 +254,19 @@ public class RetiradaController {
                     .filter(c -> c.getId() == retirada.getClienteId())
                     .findFirst().ifPresent(cmbCliente::setValue);
 
+            boolean jaEstaNaLista = cmbEquipamento.getItems().stream()
+                    .anyMatch(e -> e.getId() == retirada.getEquipamentoId());
+            if (!jaEstaNaLista) {
+                try {
+                    Equipamento equip = new EquipamentoDAO().buscarPorId(retirada.getEquipamentoId());
+                    if (equip != null) {
+                        cmbEquipamento.getItems().add(equip);
+                    }
+                } catch (Exception e) {
+                    alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar equipamento:\n" + e.getMessage());
+                }
+            }
+
             cmbEquipamento.getItems().stream()
                     .filter(e -> e.getId() == retirada.getEquipamentoId())
                     .findFirst().ifPresent(cmbEquipamento::setValue);

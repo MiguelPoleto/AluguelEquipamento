@@ -208,6 +208,11 @@ public class ReservaDAO {
         boolean autoCommitOriginal = conn.getAutoCommit();
         try {
             conn.setAutoCommit(false);
+
+            if (temRetiradaVinculada(conn, id)) {
+                throw new SQLException("Não é possível excluir uma reserva que possui retirada vinculada.");
+            }
+
             int equipamentoId = buscarEquipamentoId(conn, id);
             String sql = "DELETE FROM reserva WHERE id = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -221,6 +226,16 @@ public class ReservaDAO {
             throw ex;
         } finally {
             conn.setAutoCommit(autoCommitOriginal);
+        }
+    }
+
+    private boolean temRetiradaVinculada(Connection conn, int reservaId) throws SQLException {
+        String sql = "SELECT id FROM retirada WHERE reserva_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reservaId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         }
     }
 

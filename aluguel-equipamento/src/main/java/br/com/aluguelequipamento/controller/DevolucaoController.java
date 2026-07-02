@@ -2,6 +2,7 @@ package br.com.aluguelequipamento.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import br.com.App;
@@ -58,7 +59,11 @@ public class DevolucaoController {
         carregarTableView();
         carregarComboBoxRetiradas();
 
-        cmbRetirada.getSelectionModel().selectedItemProperty().addListener((observer, oldValue, newValue) -> selecionarItemComboBoxRetirada(newValue));
+        cmbRetirada.getSelectionModel().selectedItemProperty().addListener((observer, oldValue, newValue) -> {
+            selecionarItemComboBoxRetirada(newValue);
+            calcularEAtualizarValorDevolucao();
+        });
+        dpDataDevolucao.valueProperty().addListener((obs, oldValue, newValue) -> calcularEAtualizarValorDevolucao());
         tableView.getSelectionModel().selectedItemProperty().addListener((observer, oldValue, newValue) -> selecionarItemTableView(newValue));
     }
 
@@ -145,6 +150,19 @@ public class DevolucaoController {
 
     public void selecionarItemTableView(Devolucao devolucao) {
         if (devolucao != null) {
+            boolean jaEstaNaLista = cmbRetirada.getItems().stream()
+                    .anyMatch(r -> r.getId() == devolucao.getRetiradaId());
+            if (!jaEstaNaLista) {
+                try {
+                    Retirada r = new RetiradaDAO().buscarPorId(devolucao.getRetiradaId());
+                    if (r != null) {
+                        cmbRetirada.getItems().add(r);
+                    }
+                } catch (Exception e) {
+                    alerta(Alert.AlertType.ERROR, "Erro", "Erro ao carregar retirada:\n" + e.getMessage());
+                }
+            }
+
             cmbRetirada.getItems().stream().filter(r -> r.getId() == devolucao.getRetiradaId()).findFirst().ifPresent(cmbRetirada::setValue);
             dpDataDevolucao.setValue(devolucao.getDataDevolucao());
             txtObservacao.setText(devolucao.getObservacao());
@@ -234,5 +252,32 @@ public class DevolucaoController {
     @FXML
     private void switchToPrimary() throws IOException {
         App.setRoot("primary");
+    }
+
+    private void calcularEAtualizarValorDevolucao() {
+        Retirada retirada = cmbRetirada.getValue();
+        LocalDate dataDevolucao = dpDataDevolucao.getValue();
+        if (retirada == null || dataDevolucao == null) {
+            lblInfoValorAluguel.setText("—");
+            return;
+        }
+
+        LocalDate dataRetirada = retirada.getDataRetirada();
+        if (dataDevolucao.isBefore(dataRetirada)) {
+            lblInfoValorAluguel.setText("Data inválida");
+            return;
+        }
+
+        try {
+            br.com.aluguelequipamento.model.domain.Equipamento equip = new br.com.aluguelequipamento.model.dao.EquipamentoDAO().buscarPorId(retirada.getEquipamentoId());
+            if (equip != null) {
+                long dias = java.time.temporal.ChronoUnit.DAYS.between(dataRetirada, dataDevolucao);
+                if (dias == 0) dias = 1;
+                java.math.BigDecimal valorTotal = equip.getValorDiaria().multiply(java.math.BigDecimal.valueOf(dias));
+                lblInfoValorAluguel.setText(java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("pt", "BR")).format(valorTotal));
+            }
+        } catch (Exception e) {
+            lblInfoValorAluguel.setText("Erro ao calcular");
+        }
     }
 }

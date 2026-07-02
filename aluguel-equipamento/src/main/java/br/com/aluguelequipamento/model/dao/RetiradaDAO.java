@@ -148,42 +148,56 @@ public class RetiradaDAO {
     }
 
     public void excluir(int id) throws SQLException {
-    java.sql.Connection conn = ConexaoDAO.getConexao();
-    boolean autoCommitOriginal = conn.getAutoCommit();
-    try {
-        conn.setAutoCommit(false);
+        java.sql.Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
 
-        // Busca o equipamento antes de deletar
-        int equipamentoId;
-        try (PreparedStatement ps = conn.prepareStatement(
-                "SELECT equipamento_id FROM retirada WHERE id = ?")) {
-            ps.setInt(1, id);
+            if (temDevolucaoRegistrada(conn, id)) {
+                throw new SQLException("Não é possível excluir uma retirada que já possui devolução registrada.");
+            }
+
+            // Busca o equipamento antes de deletar
+            int equipamentoId;
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "SELECT equipamento_id FROM retirada WHERE id = ?")) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) throw new SQLException("Retirada não encontrada.");
+                    equipamentoId = rs.getInt("equipamento_id");
+                }
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM retirada WHERE id = ?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+
+            // Libera o equipamento de volta para "disponivel"
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE equipamento SET status = 'disponivel' WHERE id = ? AND status = 'alugado'")) {
+                ps.setInt(1, equipamentoId);
+                ps.executeUpdate();
+            }
+
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
+        }
+    }
+
+    private boolean temDevolucaoRegistrada(java.sql.Connection conn, int retiradaId) throws SQLException {
+        String sql = "SELECT id FROM devolucao WHERE retirada_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, retiradaId);
             try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) throw new SQLException("Retirada não encontrada.");
-                equipamentoId = rs.getInt("equipamento_id");
+                return rs.next();
             }
         }
-
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM retirada WHERE id = ?")) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        }
-
-        // Libera o equipamento de volta para "disponivel"
-        try (PreparedStatement ps = conn.prepareStatement(
-                "UPDATE equipamento SET status = 'disponivel' WHERE id = ? AND status = 'alugado'")) {
-            ps.setInt(1, equipamentoId);
-            ps.executeUpdate();
-        }
-
-        conn.commit();
-    } catch (SQLException ex) {
-        conn.rollback();
-        throw ex;
-    } finally {
-        conn.setAutoCommit(autoCommitOriginal);
     }
-}
 
     private Retirada mapear(ResultSet rs) throws SQLException {
         Retirada r = new Retirada();

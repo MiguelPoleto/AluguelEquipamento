@@ -84,11 +84,52 @@ public class EquipamentoDAO {
     }
 
     public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM equipamento WHERE id = ?";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        java.sql.Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+
+            if (temVinculos(conn, id)) {
+                throw new SQLException("Não é possível excluir um equipamento que possui histórico de reservas, retiradas ou manutenções.");
+            }
+
+            String sql = "DELETE FROM equipamento WHERE id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
         }
+    }
+
+    private boolean temVinculos(java.sql.Connection conn, int equipamentoId) throws SQLException {
+        String sqlReserva = "SELECT id FROM reserva WHERE equipamento_id = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sqlReserva)) {
+            ps.setInt(1, equipamentoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return true;
+            }
+        }
+        String sqlRetirada = "SELECT id FROM retirada WHERE equipamento_id = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sqlRetirada)) {
+            ps.setInt(1, equipamentoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return true;
+            }
+        }
+        String sqlManutencao = "SELECT id FROM manutencao WHERE equipamento_id = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sqlManutencao)) {
+            ps.setInt(1, equipamentoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return true;
+            }
+        }
+        return false;
     }
 
     private Equipamento mapear(ResultSet rs) throws SQLException {

@@ -150,35 +150,128 @@ public class ManutencaoDAO {
     }
 
     public void alterar(Manutencao m) throws SQLException {
-        String sql = "UPDATE manutencao SET equipamento_id=?, descricao=?, data_inicio=?, " +
-                "data_previsao=?, data_fim=?, status=? WHERE id=?";
+        Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
 
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, m.getEquipamentoId());
-            ps.setString(2, m.getDescricao());
-            ps.setDate(3, Date.valueOf(m.getDataInicio()));
+            validarEquipamento(conn, m.getEquipamentoId());
 
-            if (m.getDataPrevisao() != null)
-                ps.setDate(4, Date.valueOf(m.getDataPrevisao()));
-            else
-                ps.setNull(4, Types.DATE);
+            int equipamentoAnteriorId = buscarEquipamentoId(conn, m.getId());
+            String statusAnterior = buscarStatus(conn, m.getId());
 
-            if (m.getDataFim() != null)
-                ps.setDate(5, Date.valueOf(m.getDataFim()));
-            else
-                ps.setNull(5, Types.DATE);
+            int emAndamento = contarEmAndamento(conn);
+            if ("em_andamento".equals(m.getStatus()) && !"em_andamento".equals(statusAnterior) && emAndamento >= 10) {
+                throw new SQLException("Limite de 10 manutencoes em andamento atingido.");
+            }
 
-            ps.setString(6, m.getStatus());
-            ps.setInt(7, m.getId());
+            if ("em_andamento".equals(m.getStatus())
+                    && existeManutencaoEmAndamentoEquipamento(conn, m.getEquipamentoId(), m.getId())) {
+                throw new SQLException("Equipamento ja possui manutencao em andamento.");
+            }
 
-            ps.executeUpdate();
+            String sql = "UPDATE manutencao SET equipamento_id=?, descricao=?, data_inicio=?, " +
+                    "data_previsao=?, data_fim=?, status=? WHERE id=?";
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, m.getEquipamentoId());
+                ps.setString(2, m.getDescricao());
+                ps.setDate(3, Date.valueOf(m.getDataInicio()));
+
+                if (m.getDataPrevisao() != null)
+                    ps.setDate(4, Date.valueOf(m.getDataPrevisao()));
+                else
+                    ps.setNull(4, Types.DATE);
+
+                if (m.getDataFim() != null)
+                    ps.setDate(5, Date.valueOf(m.getDataFim()));
+                else
+                    ps.setNull(5, Types.DATE);
+
+                ps.setString(6, m.getStatus());
+                ps.setInt(7, m.getId());
+
+                ps.executeUpdate();
+            }
+
+            if (equipamentoAnteriorId != m.getEquipamentoId()) {
+                liberarEquipamentoSemManutencaoAtiva(conn, equipamentoAnteriorId);
+            }
+            if ("em_andamento".equals(m.getStatus())) {
+                atualizarStatusEquipamento(conn, m.getEquipamentoId(), "em_andamento");
+            } else {
+                liberarEquipamentoSemManutencaoAtiva(conn, m.getEquipamentoId());
+            }
+
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
         }
     }
 
     public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM manutencao WHERE id = ?";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
+        Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+            int equipamentoId = buscarEquipamentoId(conn, id);
+            String sql = "DELETE FROM manutencao WHERE id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+            liberarEquipamentoSemManutencaoAtiva(conn, equipamentoId);
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
+        }
+    }
+
+    private String buscarStatus(Connection conn, int manutencaoId) throws SQLException {
+        String sql = "SELECT status FROM manutencao WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, manutencaoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("status");
+                }
+            }
+        }
+        throw new SQLException("Manutencao nao encontrada.");
+    }
+
+    private int buscarEquipamentoId(Connection conn, int manutencaoId) throws SQLException {
+        String sql = "SELECT equipamento_id FROM manutencao WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, manutencaoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("equipamento_id");
+                }
+            }
+        }
+        throw new SQLException("Manutencao nao encontrada.");
+    }
+
+    private void liberarEquipamentoSemManutencaoAtiva(Connection conn, int equipamentoId) throws SQLException {
+        String sqlManutencao = "SELECT id FROM manutencao WHERE equipamento_id = ? AND status = 'em_andamento'";
+        try (PreparedStatement ps = conn.prepareStatement(sqlManutencao)) {
+            ps.setInt(1, equipamentoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return;
+                }
+            }
+        }
+        String sqlStatus = "UPDATE equipamento SET status = 'disponivel' WHERE id = ? AND status = 'em_manutencao'";
+        try (PreparedStatement ps = conn.prepareStatement(sqlStatus)) {
+            ps.setInt(1, equipamentoId);
             ps.executeUpdate();
         }
     }

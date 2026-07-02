@@ -259,12 +259,6 @@ public class ManutencaoController {
                 mostrarSucesso("Manutenção registrada com sucesso!");
             } else {
                 m.setId(manutencaoSelecionada.getId());
-                // Se concluída, libera equipamento para disponível
-                if ("concluida".equals(m.getStatus())
-                        && "em_andamento".equals(manutencaoSelecionada.getStatus())) {
-                    equipamentoDAO.atualizarStatus(
-                            m.getEquipamentoId(), "disponivel");
-                }
                 manutencaoDAO.alterar(m);
                 mostrarSucesso("Manutenção alterada com sucesso!");
             }
@@ -293,11 +287,6 @@ public class ManutencaoController {
         confirm.showAndWait().ifPresent(resp -> {
             if (resp == ButtonType.OK) {
                 try {
-                    // Se estava em andamento, libera equipamento
-                    if ("em_andamento".equals(manutencaoSelecionada.getStatus())) {
-                        equipamentoDAO.atualizarStatus(
-                                manutencaoSelecionada.getEquipamentoId(), "disponivel");
-                    }
                     manutencaoDAO.excluir(manutencaoSelecionada.getId());
                     mostrarSucesso("Manutenção excluída com sucesso!");
                     limpar();

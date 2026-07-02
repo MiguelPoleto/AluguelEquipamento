@@ -76,11 +76,45 @@ public List<Cliente> listar() throws SQLException {
     }
 
     public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM cliente WHERE id = ?";
-        try (PreparedStatement ps = ConexaoDAO.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        java.sql.Connection conn = ConexaoDAO.getConexao();
+        boolean autoCommitOriginal = conn.getAutoCommit();
+        try {
+            conn.setAutoCommit(false);
+
+            if (temVinculos(conn, id)) {
+                throw new SQLException("Não é possível excluir um cliente que possui histórico de reservas ou retiradas.");
+            }
+
+            String sql = "DELETE FROM cliente WHERE id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+            conn.commit();
+        } catch (SQLException ex) {
+            conn.rollback();
+            throw ex;
+        } finally {
+            conn.setAutoCommit(autoCommitOriginal);
         }
+    }
+
+    private boolean temVinculos(java.sql.Connection conn, int clienteId) throws SQLException {
+        String sqlReserva = "SELECT id FROM reserva WHERE cliente_id = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sqlReserva)) {
+            ps.setInt(1, clienteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return true;
+            }
+        }
+        String sqlRetirada = "SELECT id FROM retirada WHERE cliente_id = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sqlRetirada)) {
+            ps.setInt(1, clienteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return true;
+            }
+        }
+        return false;
     }
 
     private Cliente mapear(ResultSet rs) throws SQLException {
